@@ -7,7 +7,7 @@ import BlockchainCarousel from './BlockchainCarousel'
 
 // Import all blockchain logos
 import bitcoinLogo from '../assests/bitcoin-btc-logo.svg'
-import ethereumLogo from '../assests/somnia.svg'
+import ethereumLogo from '../assests/ethereum-eth-logo.svg'
 import solanaLogo from '../assests/solana-sol-logo.svg'
 import polygonLogo from '../assests/polygon-matic-logo.svg'
 import avalancheLogo from '../assests/avalanche-avax-logo.svg'
@@ -26,7 +26,7 @@ import baseLogo from '../assests/base-logo.svg';
 import sepoliaLogo from '../assests/sepolia-logo.svg';
 import bnbLogo from '../assests/bnb-logo.svg';
 import zetachainLogo from '../assests/zetachain-logo.svg';
-import somniaLogo from '../assests/somnia.svg';
+import pushchainLogo from '../assests/pushchain.png';
 import citreaLogo from '../assests/citrea-logo.svg';
 import liskLogo from '../assests/lisk-logo.svg';
 function LandingPage() {
@@ -35,12 +35,12 @@ function LandingPage() {
   const benefits = [
     "Multi-wallet generation (BIP39/BIP44) — temporary or permanent wallets",
     "Import/export wallets using seed phrase or private key (cross-platform compatible)",
-    "Somina network integration with full blockchain functionality",
+    "Push Chain network integration with universal blockchain functionality",
     "Smart contract escrow system with refund & claim flows for secure transactions",
     "QR code pay/scan/download + auto-detect scanner flow for easy address sharing",
     "Integrated faucet per network + transaction history with blockchain explorer links",
     "Manual gas limit & gas price control for advanced transaction management",
-    "Revolutionary EVM shared seed technology for cross-chain compatibility",
+    "Revolutionary universal chain technology for seamless cross-chain compatibility",
     "Create unlimited addresses from single seed or generate fresh ones",
     "Advanced temporary wallet features for maximum privacy and testing",
     "Zero data collection - everything stays secure in your browser",
@@ -73,7 +73,7 @@ function LandingPage() {
     { src: sepoliaLogo, name: 'Sepolia', color: '#627eea' },
     { src: bnbLogo, name: 'BNB Smart Chain', color: '#627eea' },
     { src: zetachainLogo, name: 'Zeta Chain', color: '#627eea' },
-    { src: somniaLogo, name: 'Somina', color: '#627eea' },
+    { src: pushchainLogo, name: 'Push Chain', color: '#8b5cf6' },
     { src: citreaLogo, name: 'Citrea', color: '#627eea' },
     { src: bitcoinLogo, name: 'Bitcoin', color: '#f7931a' },
     { src: solanaLogo, name: 'Solana', color: '#9945ff' },
@@ -112,7 +112,7 @@ function LandingPage() {
               </h2>
 
               <p className="mx-auto max-w-3xl text-xs sm:text-lg text-gray-300 leading-relaxed px-4">
-                Easily create or import Hierarchical Deterministic (HD) wallets, manage multiple addresses from a single seed phrase, create secure escrow agreements, and interact with <span className='text-purple-400 font-semibold'>Somina network</span> — all within a secure, non-custodial platform. Featuring <span className="text-purple-400 font-semibold">Somina blockchain support, QR code integration, smart contract escrow, and AI-powered customer assistance</span>.
+                Easily create or import Hierarchical Deterministic (HD) wallets, manage multiple addresses from a single seed phrase, create secure escrow agreements, and interact with <span className='text-purple-400 font-semibold'>Push Chain network</span> — all within a secure, non-custodial platform. Featuring <span className="text-purple-400 font-semibold">Push Chain universal blockchain support, QR code integration, smart contract escrow, and AI-powered customer assistance</span>.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center  sm:gap-4 pt-4">
@@ -190,8 +190,8 @@ function LandingPage() {
                 </span>
               </h2>
               <p className="text-lg text-gray-300 mb-8 leading-relaxed">
-                Build and manage HD wallets with BIP39/BIP44 compliance on <span className='text-purple-500'>Somina network</span>.
-                Features include QR code scanning, smart contract escrow, faucet integration, manual gas controls, and AI-powered customer support - all in one comprehensive platform.
+                Build and manage HD wallets with BIP39/BIP44 compliance on <span className='text-purple-500'>Push Chain network</span>.
+                Features include QR code scanning, smart contract escrow, faucet integration, manual gas controls, and AI-powered customer support - all in one comprehensive universal platform.
               </p>
 
               <div className="space-y-4">
@@ -315,7 +315,7 @@ function LandingPage() {
                 {/* Bottom text */}
                 <div className="px-8 pb-6">
                   <p className="text-center text-gray-400 text-sm">
-                    Currently supporting Somina network - the future of blockchain technology
+                    Powered by Push Chain network - the universal blockchain platform
                   </p>
                 </div>
               </div>

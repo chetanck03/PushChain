@@ -1,17 +1,17 @@
 // Multi-blockchain network configuration
 export const NETWORK_CONFIGS = {
-  somnia: {
-    id: 'somnia',
-    name: 'Somnia',
-    symbol: 'STT',
+  pushchain: {
+    id: 'pushchain',
+    name: 'Push Chain',
+    symbol: 'PC',
     coinType: 60, // EVM compatible
     networks: {
       testnet: {
-        name: 'Somnia Testnet',
-        chainId: 50312,
-        rpcUrl: import.meta.env.VITE_SOMNIA_TESTNET_RPC_URL || 'https://dream-rpc.somnia.network',
-        explorerUrl: 'https://shannon-explorer.somnia.network',
-        faucetUrl: 'https://cloud.google.com/application/web3/faucet/somnia/shannon'
+        name: 'Push Chain Donut Testnet',
+        chainId: 42101,
+        rpcUrl: import.meta.env.VITE_PUSHCHAIN_TESTNET_RPC_URL || 'https://evm.rpc-testnet-donut-node1.push.org',
+        explorerUrl: 'https://donut.push.network',
+        faucetUrl: 'https://faucet.push.org'
       }
     }
   }

@@ -8,7 +8,7 @@ import {
 import WalletComponent from './Wallet/Wallet'
 
 // Import blockchain logos
-import somniaLogo from '../assests/somnia.svg'
+import pushchainLogo from '../assests/pushchain.png'
 
 function Dashboard() {
   const [selectedBlockchain, setSelectedBlockchain] = useState(null)
@@ -30,16 +30,17 @@ function Dashboard() {
     }
   }, [])
 
-  // Single EVM blockchain entry point - ONLY SOMNIA
+  // Single EVM blockchain entry point - PUSH CHAIN UNIVERSAL APP
   const evmBlockchain = {
     id: 'evm',
-    name: 'Somnia Network',
-    description: 'Access the Somnia Testnet with unified wallet functionality',
-    color: 'from-pink-500 to-purple-600',
+    name: 'Push Chain Network',
+    description: 'Universal App - Access from any blockchain with unified wallet functionality',
+    color: 'from-blue-500 to-purple-600',
     networks: [
-      { name: 'Somnia Testnet', logo: somniaLogo, color: 'from-pink-500 to-purple-600' }
+      { name: 'Push Chain Donut Testnet', logo: pushchainLogo, color: 'from-blue-500 to-purple-600' }
     ],
-    logos: [somniaLogo]
+    logos: [pushchainLogo],
+    isUniversal: true
   }
 
   if (selectedBlockchain && selectedBlockchain === 'evm') {
@@ -49,7 +50,7 @@ function Dashboard() {
         <div className="absolute top-0 z-[0] h-full w-full bg-neutral-900/10 bg-[radial-gradient(ellipse_20%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]" />
 
         <div className="relative z-10">
-          <WalletComponent blockchain="somnia" />
+          <WalletComponent blockchain="pushchain" />
         </div>
       </div>
     )
@@ -76,26 +77,26 @@ function Dashboard() {
         <div className="relative z-10 container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="font-geist text-2xl sm:text-3xl md:text-4xl bg-clip-text text-transparent bg-[linear-gradient(180deg,_#FFF_0%,_rgba(255,_255,_255,_0.00)_202.08%)]">
-              Somnia Network{' '}
+              Push Chain Universal{' '}
               <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
                 Wallet Platform
               </span>
             </h2>
             <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-sm sm:text-base md:text-lg px-4 sm:px-0">
-              Create, import, and manage wallets specifically for the Somnia Testnet with unified functionality.
+              Universal App - Create, import, and manage wallets that work across ALL blockchains with Push Chain's universal functionality.
             </p>
 
             {/* EVM Info */}
             {/* <div className="max-w-4xl mt-8 mx-auto bg-gradient-to-r from-purple-600/10 to-purple-600/10 border border-purple-500/20 rounded-xl p-4 sm:p-6 mb-8">
               <div className="flex flex-col sm:flex-row items-start gap-3">
-                <div className="flex items-center gap-2 text-purple-400 mt-1 flex-shrink-0">
+                <div className="flex items-center gap-2 text-blue-400 mt-1 flex-shrink-0">
                   <Link className="h-4 w-4 sm:h-5 sm:w-5" />
-                  <span className="font-semibold text-sm sm:text-base">Somnia Network Support</span>
+                  <span className="font-semibold text-sm sm:text-base">Universal App Support</span>
                 </div>
                 <div className="flex-1">
                   <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    WalletX now supports <strong className="text-white">the Somnia Testnet</strong>.
-                    <strong className="text-white"> Create temporary or permanent wallets and interact with the Somnia network</strong> with the same interface and functionality.
+                    WalletX is now a <strong className="text-white">Universal App on Push Chain</strong>.
+                    <strong className="text-white"> Users from Ethereum, Solana, Base, and other chains can interact</strong> without switching networks or holding PC tokens.
                   </p>
                 </div>
               </div>
@@ -116,7 +117,7 @@ function Dashboard() {
                   {/* EVM Compatibility Badge */}
                   <div className="absolute top-3 right-3 flex items-center gap-1 bg-gradient-to-r from-purple-600/20 to-purple-400/20 border border-purple-500/30 rounded-full px-2 py-1">
                     <Link className="h-3 w-3 text-purple-400" />
-                    <span className="text-xs text-purple-400 font-medium">Somnia</span>
+                    <span className="text-xs text-purple-400 font-medium">Universal</span>
                   </div>
 
                   {/* Central Logo Display */}
@@ -125,7 +126,7 @@ function Dashboard() {
                       <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                       <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-neutral-950 backdrop-blur-3xl">
                         <div className="w-16 h-16 rounded-full border border-purple-500/30 flex items-center justify-center">
-                          <img src={somniaLogo} alt="Somnia Network" className="w-10 h-10 object-contain" />
+                          <img src={pushchainLogo} alt="Push Chain Network" className="w-10 h-10 object-contain" />
                         </div>
                       </div>
                     </div>
@@ -134,32 +135,32 @@ function Dashboard() {
                   <h3 className="text-2xl font-bold text-white mb-2">{evmBlockchain.name}</h3>
                   <p className="text-gray-400 mb-4 flex-grow">{evmBlockchain.description}</p>
 
-                  {/* Somnia Network Features */}
+                  {/* Push Chain Universal Features */}
                   <div className=" border border-purple-500/20 rounded-lg p-4 mb-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                       <div className="flex items-center gap-2">
                         <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
-                        <span className="text-gray-300">High-Performance Blockchain</span>
+                        <span className="text-gray-300">Universal Chain Access</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
-                        <span className="text-gray-300">EVM Compatible</span>
+                        <span className="text-gray-300">Cross-Chain Compatibility</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
-                        <span className="text-gray-300">Low Transaction Fees</span>
+                        <span className="text-gray-300">Gasless Transactions</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
-                        <span className="text-gray-300">Fast Finality</span>
+                        <span className="text-gray-300">Instant Settlement</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
-                        <span className="text-gray-300">Secure Infrastructure</span>
+                        <span className="text-gray-300">Push Protocol Integration</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
-                        <span className="text-gray-300">Developer Friendly</span>
+                        <span className="text-gray-300">Unified Wallet Experience</span>
                       </div>
                     </div>
                   </div>
@@ -171,7 +172,7 @@ function Dashboard() {
                       <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                       <div className="inline-flex h-full w-full items-center justify-center rounded-full bg-gray-950 backdrop-blur-3xl">
                         <div className="w-full inline-flex items-center justify-center rounded-full border-[1px] border-transparent bg-gradient-to-tr from-zinc-300/5 via-purple-400/20 to-transparent px-6 py-3 text-white font-medium transition-colors hover:bg-transparent/90">
-                          <span>Access Somnia Wallet</span>
+                          <span>Access Universal Wallet</span>
                           <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>

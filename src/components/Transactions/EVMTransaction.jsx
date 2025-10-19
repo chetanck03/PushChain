@@ -16,7 +16,7 @@ import baseLogo from '../../assests/base-logo.svg'
 import sepoliaLogo from '../../assests/sepolia-logo.svg'
 import bnbLogo from '../../assests/bnb-logo.svg'
 import zetachainLogo from '../../assests/zetachain-logo.svg'
-import somniaLogo from '../../assests/somnia.svg'
+import pushchainLogo from '../../assests/logo.svg'
 import liskLogo from '../../assests/lisk-logo.svg'
 import citeraLogo from '../../assests/citera-logo.svg'
 
@@ -99,8 +99,8 @@ function EVMTransaction({ walletData, blockchain: initialBlockchain }) {
         return bnbLogo
       case 'zetachain':
         return zetachainLogo
-      case 'somnia':
-        return somniaLogo
+      case 'pushchain':
+        return pushchainLogo
       case 'lisk':
         return liskLogo
       case 'citera':
@@ -132,7 +132,7 @@ function EVMTransaction({ walletData, blockchain: initialBlockchain }) {
 
 
 
-  // Auto-enable contract mode for Somnia Testnet
+  // Auto-enable contract mode for Push Chain Testnet
   useEffect(() => {
     const shouldUseContract = currentBlockchain === 'polygon' && network === 'testnet' && WALLET_MANAGER_ADDRESS
     setUseContract(shouldUseContract)
@@ -312,8 +312,8 @@ function EVMTransaction({ walletData, blockchain: initialBlockchain }) {
     setNetwork(newNetwork)
     setSendForm({ to: '', amount: '', gasLimit: '300000' })
     
-    // Auto-enable contract mode for Somnia testnet
-    const shouldUseContract = currentBlockchain === 'somnia' && newNetwork === 'testnet' && WALLET_MANAGER_ADDRESS
+    // Auto-enable contract mode for Push Chain testnet
+    const shouldUseContract = currentBlockchain === 'pushchain' && newNetwork === 'testnet' && WALLET_MANAGER_ADDRESS
     setUseContract(shouldUseContract)
   }
 

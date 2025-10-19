@@ -1,0 +1,90 @@
+💡 Welcome to Project G.U.D
+Join our 3-week developer Deploython and be among the first to build Universal Apps on Push Chain’s Testnet Donut. With $5,000 in prizes, it’s your chance to deploy once, reach users from every chain, and help shape the future of multichain development.
+
+Join our Telegram for developer support and participation.
+🌻 Office Hours / Dev Help Session on Oct 17 (12 PM UTC) 🌻 Join the Session HERE to clear your queries, get feedback, and ship faster with our team leads 💪
+
+🌐 Go Universal & Deploy (G.U.D)
+What is Push Chain?
+Push Chain is a shared-state Layer 1 blockchain built to eliminate fragmentation across all chains.
+
+Push enables you to build Universal Apps that can support transactions from any chain (Ethereum, Solana, EVM L2s, L3s) - without requiring users to juggle between multiple wallets, tokens or gas mechanics.
+
+In short, Deploy once, go cross-chain & 10X your user base.
+
+What makes Push Chain unique?
+Devs deserve better for their apps - more users, more revenue, more distribution.
+
+Expand Your Userbase Instantly: Deploy once, reach users across EVM + non-EVM chains (yes, even Solana!).
+Avoid Audit Friction: Since you do not modify your solidity code, there is no need for a full re-audit.
+Simplified Fees: Automatically routes gas fees under the hood. Users do not need to hold $PC tokens or switch chains to complete transactions.
+Consistent DevEx: One Push SDK, one set of JSON-RPC endpoints, and a unified API to build and deploy. Supports Viem, ethers, and our own Push Chain client.
+Future-Proof Builds: With shared state and programmable solvers (coming soon), you can orchestrate complex workflows with multichain R/W operations - without building separate adapters.
+image (8).png
+
+🏗️ What Can You Build?
+You can transform an existing EVM app into a Universal App, or build a brand-new Universal App from scratch.
+
+What are Universal Apps?
+Universal Apps are fully interoperable apps deployed on Push Chain that support transactions from any EVM, non-EVM chain (eg: Solana, Ethereum, Base, etc) - without relying on centralized relayers, bridges or other hacks.
+
+Any EVM app can be converted into a Universal App using the Push Chain SDK
+
+Deploy your existing EVM app	Build a new universal app
+No contract rewrites - deploy & instantly reach all chains.	Start fresh and explore bold new ideas that could scale into profitable startups.
+⚔️ Why Join Project G.U.D?
+$5000 in rewards and grant support for top projects
+Round-the-clock Support and Mentorship: Get hands-on guidance and direct mentorship support from our cracked devrel and core infra team. Join the dedicated Telegram Support Group to meet them.
+Boost visibility: Winning projects will be featured on the Testnet Portal to thousands of users!
+Deploy early, grow faster: Be among the first to launch applications on Push Chain and capture early user traction.
+⏰ Timeline
+Pre-registration Starts: Sep 18
+Deployathon Kickoff: Sep 23
+Submission Deadline: Oct 13
+Jury Winner Announcement: Oct 24
+Community Voting and Winner Announcement: Right after Jury Announcement!
+🏆 Prizes
+$4000 Reward Pool + $1000 Additional through community voting
+Jury Rewards:
+Rank	Prize (USD)
+🥇 First Place	$2000
+🥈 Second Place	$1000
+🥉 Third Place	$600
+⛳️ Fourth Place	$400
+Community Voting Rewards:
+Rank	Prize (USD)
+🥇 First Place	$500
+🥈 Second Place	$300
+🥉 Third Place	$200
+💡TIP - Build In Public: Share your progress publicly — the more the community sees, the better your chances of winning more votes!
+
+Additional Incentives:
+Winning Apps to be specially featured on the Testnet Portal.
+Winners gain a chance to access Push Chains VC and partner network
+Onchain perks (Secret passes, Badges) and Offchain perks (Meet the founders, 1-1 Mentorship)
+✅ Eligibility
+The contest is open to developers across the experience spectrum.
+
+If you’ve been building production-grade EVM dApps, are an early-stage builder, or have a new universal app use case you want to execute, you’re more than welcome
+
+You can either hack solo or build together by forming teams.
+
+🧐Judging criteria
+Submissions will be evaluated based on the following:
+
+Functionality
+Composability
+Ease of use
+Innovation
+Design and Vibes
+☎️ Contact us
+Join the Telegram Support Group to find teammates, share queries, meet the Push team, get the latest updates and Alphas!
+
+🔗 Helpful Links to Get Started Building
+Website: https://push.org
+Documentation Hub: https://pushchain.github.io/push-chain-website/pr-preview/pr-1067/docs/
+Core SDK (npm): https://www.npmjs.com/package/@pushchain/core
+UI Kit: https://www.npmjs.com/package/@pushchain/ui-kit
+Faucet: https://faucet.push.org/
+Block Explorer: https://donut.push.network/
+For more details about Project G.U.D 👉 Read Here.

@@ -1,15 +1,15 @@
 import React from 'react'
 import { ArrowLeft } from 'lucide-react'
-import somniaLogo from '../../../assests/somnia.svg'
+import pushchainLogo from '../../../assests/logo.svg'
 
 const logoMap = {
-    somnia: somniaLogo
+    pushchain: pushchainLogo
 }
 
-const EthereumHeader = ({ onBackToSelection, blockchainName = 'Somnia', blockchainId }) => {
+const EthereumHeader = ({ onBackToSelection, blockchainName = 'Push Chain', blockchainId }) => {
     // Use blockchainId for logo mapping if provided, otherwise try to extract from name
     const logoKey = blockchainId || blockchainName.toLowerCase().split(' ')[0]
-    const logo = logoMap[logoKey] || somniaLogo
+    const logo = logoMap[logoKey] || pushchainLogo
     return (
         <>
             {/* Back to Selection Button */}
@@ -33,13 +33,13 @@ const EthereumHeader = ({ onBackToSelection, blockchainName = 'Somnia', blockcha
                 </div>
                 </div> */}
                 <h1 className="font-geist text-3xl md:text-4xl bg-clip-text text-transparent bg-[linear-gradient(180deg,_#FFF_0%,_rgba(255,_255,_255,_0.00)_202.08%)] mb-4">
-                    Somnia{' '}
+                    Push Chain{' '}
                     <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                         HD Wallet
                     </span>
                 </h1>
                 <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-                    Create and manage wallets specifically for the Somnia Testnet with secure seed phrase generation
+                    Create and manage wallets specifically for the Push Chain Donut Testnet with secure seed phrase generation
                 </p>
             </div>
         </>

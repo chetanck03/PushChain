@@ -1,29 +1,29 @@
 import React from 'react';
 import { CheckCircle, Network, Zap, Shield, Globe, Cpu } from 'lucide-react';
 
-// We'll use a generic blockchain icon since we don't have a specific Somnia logo
-// You can replace this with a Somnia logo if available later
-import baseLogo from '../assests/logo.svg';
+// Using Push Chain logo for the universal blockchain platform
+import pushchainLogo from '../assests/pushchain.png';
 const BlockchainCarousel = () => {
-    const somniaNetworks = [
+    const pushchainNetworks = [
         {
-            name: "Somnia Shannon Testnet",
-            description: "Revolutionary high-performance blockchain for next-generation applications",
-            chainId: "50312", // Somnia Shannon testnet chain ID
-            rpc: "https://dream-rpc.somnia.network",
-            explorer: "https://shannon-explorer.somnia.network", // Somnia Shannon testnet explorer URL
+            name: "Push Chain Donut Testnet",
+            description: "Universal blockchain platform enabling seamless cross-chain interactions",
+            chainId: "42101", // Push Chain testnet chain ID
+            rpc: "https://evm.rpc-testnet-donut-node1.push.org",
+            explorer: "https://donut.push.network/", // Push Chain testnet explorer URL
             features: [
-                { icon: "Network", text: "Test Network Environment", description: "Safe testing environment for developers" },
-                { icon: "Zap", text: "1M+ TPS Performance", description: "Ultra-high transaction throughput" },
-                { icon: "Shield", text: "Free STT Tokens", description: "Free testnet tokens for development" },
-                { icon: "Cpu", text: "Advanced Development Tools", description: "Complete developer ecosystem" },
-                { icon: "Globe", text: "EVM Compatible", description: "Full Ethereum Virtual Machine support" }
+                { icon: "Network", text: "Universal Chain Access", description: "Access any blockchain from one platform" },
+                { icon: "Zap", text: "Gasless Transactions", description: "Zero gas fees for seamless interactions" },
+                { icon: "Shield", text: "Free PC Tokens", description: "Free testnet tokens for development" },
+                { icon: "Cpu", text: "Cross-Chain Tools", description: "Universal development ecosystem" },
+                { icon: "Globe", text: "Multi-Chain Compatible", description: "Works with all major blockchains" }
             ],
             highlights: [
-                "Build & deploy apps effortlessly",
-                "Ultra-low fees for all your transfers",
-                "Lightning-fast transactions in milliseconds",
-                "Secure & reliable blockchain network"
+                "Unified wallet experience",
+                "Build universal apps effortlessly",
+                "Instant cross-chain settlements",
+                "Gasless transactions across all chains",
+
             ]
         }
     ];
@@ -49,18 +49,18 @@ const BlockchainCarousel = () => {
                     <h2 className="font-geist mx-auto bg-[linear-gradient(180deg,_#FFF_0%,_rgba(255,_255,_255,_0.00)_202.08%)] bg-clip-text text-3xl md:text-4xl lg:text-4xl tracking-tighter text-transparent leading-tight mb-6">
                         Powered by{' '}
                         <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                            Somnia Blockchain
+                            Push Chain Network
                         </span>
                     </h2>
                     <p className="text-gray-300 text-xl max-w-3xl mx-auto mb-4 leading-relaxed">
-                        Experience the future of blockchain technology with Somnia's revolutionary high-performance network
+                        Experience the future of universal blockchain technology with Push Chain's revolutionary cross-chain platform
                     </p>
                   
                 </div>
 
-                {/* Somnia Networks Grid */}
+                {/* Push Chain Networks Grid */}
                 <div className="grid grid-cols-1 gap-4 max-w-4xl mx-auto">
-                    {somniaNetworks.map((network, index) => (
+                    {pushchainNetworks.map((network, index) => (
                         <div
                             key={network.name}
                             className="group relative"
@@ -73,8 +73,8 @@ const BlockchainCarousel = () => {
                                     <div className="relative inline-block overflow-hidden rounded-full p-[2px] mb-4">
                                         <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                                         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-neutral-950 backdrop-blur-3xl">
-                                            <div className="w-14 h-14 rounded-full border border-blue-500/30 flex items-center justify-center backdrop-blur-sm">
-                                                <img src={baseLogo} alt="Somnia" className="w-8 h-8 object-contain" />
+                                            <div className="w-14 h-14 rounded-full border border-purple-500/30 flex items-center justify-center backdrop-blur-sm">
+                                                <img src={pushchainLogo} alt="Push Chain" className="w-8 h-8 object-contain" />
                                             </div>
                                         </div>
                                     </div>

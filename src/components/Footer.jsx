@@ -22,7 +22,7 @@ function Footer() {
               </span>
             </div>
             <p className="text-gray-400 mb-4 max-w-md">
-              Your revolutionary wallet manager supporting Somina network. Generate, manage, and secure your crypto wallets with advanced escrow functionality, QR code integration, and AI-powered assistance on the high-performance Somina blockchain.
+              Your revolutionary wallet manager powered by Push Chain's universal platform. Generate, manage, and secure your crypto wallets with advanced escrow functionality, QR code integration, and AI-powered assistance on the high-performance Push Chain network.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">

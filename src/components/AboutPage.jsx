@@ -10,12 +10,12 @@ function AboutPage() {
   const benefits = [
     "Multi-wallet generation (BIP39/BIP44) — temporary or permanent wallets",
     "Import/export wallets using seed phrase or private key (cross-platform compatible)",
-    "Somina network integration with full blockchain functionality",
+    "Push Chain network integration with universal blockchain functionality",
     "Smart contract escrow system with refund & claim flows for secure transactions",
     "QR code pay/scan/download + auto-detect scanner flow for easy address sharing",
     "Integrated faucet per network + transaction history with blockchain explorer links",
     "Manual gas limit & gas price control for advanced transaction management",
-    "Revolutionary EVM shared seed technology for cross-chain compatibility",
+    "Revolutionary universal chain technology for seamless cross-chain compatibility",
     "Create unlimited addresses from single seed or generate fresh ones",
     "Advanced temporary wallet features for maximum privacy and testing",
     "Zero data collection - everything stays secure in your browser",
@@ -48,14 +48,14 @@ function AboutPage() {
               </h1>
 
               <p className="text-sm md:text-lg text-gray-300 mb-6 leading-relaxed max-w-4xl mx-auto">
-                WalletX revolutionizes cryptocurrency access with advanced multi-wallet technology, currently supporting
-                <span className="text-purple-400 font-semibold"> Somina network</span>.
+                WalletX revolutionizes cryptocurrency access with advanced multi-wallet technology, powered by
+                <span className="text-purple-400 font-semibold"> Push Chain's universal platform</span>.
                 Like temporary phone numbers or disposable emails, but for crypto - offering professional-grade
-                HD wallet generation, revolutionary EVM shared seed technology, complete transaction management, QR code integration, and secure escrow functionality.
+                HD wallet generation, revolutionary universal chain technology, complete transaction management, QR code integration, and secure escrow functionality.
               </p>
 
               <p className="text-sm md:text-lg text-gray-400 mb-8 leading-relaxed max-w-3xl mx-auto">
-                Supporting <span className="text-purple-400 font-semibold">Somina network</span> with comprehensive features including <span className="text-purple-400 font-semibold">smart contract escrow, QR code integration, faucet access, and AI-powered assistance</span> -
+                Powered by <span className="text-purple-400 font-semibold">Push Chain network</span> with comprehensive features including <span className="text-purple-400 font-semibold">smart contract escrow, QR code integration, faucet access, and AI-powered assistance</span> -
                 perfect for testing, development, privacy-focused transactions, secure escrow agreements, or when you need instant blockchain access
                 without compromising your main wallets. Built with enterprise-level security and zero data collection.
               </p>
@@ -96,19 +96,19 @@ function AboutPage() {
               <p className="text-sm md:text-lg text-gray-300 mb-6 leading-relaxed">
                 In the digital age, we use temporary phone numbers for privacy, disposable emails for security,
                 and burner accounts for anonymity. WalletX brings this revolutionary concept to cryptocurrency with
-                professional-grade temporary wallets, supporting <span className="text-purple-400 font-semibold">Somina network</span>
+                professional-grade temporary wallets, powered by <span className="text-purple-400 font-semibold">Push Chain's universal platform</span>
                 that doesn't compromise on features or security.
               </p>
               <p className="text-sm md:text-lg text-gray-300 mb-6 leading-relaxed">
-                Our groundbreaking <span className="text-purple-400 font-semibold">EVM Shared Seed technology</span> enables
-                one seed phrase to generate compatible wallet addresses on Somina network.
+                Our groundbreaking <span className="text-purple-400 font-semibold">Universal Chain technology</span> enables
+                one seed phrase to generate compatible wallet addresses across all supported blockchains through Push Chain network.
                 Whether you're a developer testing dApps, a privacy-conscious user making anonymous
                 transactions, someone who needs secure escrow agreements, or instant blockchain access, WalletX provides the perfect solution.
               </p>
               <p className="text-sm md:text-lg text-gray-300 mb-8 leading-relaxed">
                 Built with enterprise-level security, industry-standard BIP39/BIP44 cryptographic methods, integrated escrow system for secure fund transfers, QR code functionality for seamless transactions, AI-powered customer assistance, and zero data collection,
                 WalletX bridges the gap between temporary convenience and professional blockchain functionality.
-                Experience comprehensive crypto wallet management on Somina network today.
+                Experience comprehensive crypto wallet management on Push Chain's universal platform today.
               </p>
 
 
@@ -244,7 +244,7 @@ function AboutPage() {
                     Smart Contract Escrow
                   </h3>
                   <p className="text-gray-400 text-sm md:text-lg leading-relaxed ml-9">
-                    Secure escrow system powered by audited smart contracts on Somnia Blockchain. Funds are held in
+                    Secure escrow system powered by audited smart contracts on Push Chain Network. Funds are held in
                     transparent, immutable contracts with automatic release conditions and dispute resolution mechanisms.
                   </p>
                 </div>
@@ -312,19 +312,19 @@ function AboutPage() {
               <p className="text-sm md:text-lg text-gray-300 mb-8 leading-relaxed">
                 WalletX is built on a foundation of modern web technologies and industry-standard blockchain libraries.
                 Our architecture prioritizes performance, security, and compatibility while maintaining the flexibility
-                to support Somina network seamlessly. Integrated with comprehensive blockchain support including smart contract escrow, QR code functionality, and AI-powered assistance.
+                to support Push Chain's universal platform seamlessly. Integrated with comprehensive blockchain support including smart contract escrow, QR code functionality, and AI-powered assistance.
               </p>
 
               <div className="text-left space-y-6">
                 <div>
                   <h3 className="text-xl font-semibold text-white mb-3 flex items-center">
                     <Cpu className="h-6 w-6 text-blue-500 mr-3" />
-                    Multi-Chain Architecture
+                    Universal Chain Architecture
                   </h3>
                   <p className="text-gray-400 text-sm md:text-lg leading-relaxed ml-9 mb-2">
-                    Built to support Somina network with integrated faucets, transaction history with explorer links, and comprehensive wallet functionality.
+                    Built on Push Chain's universal platform with integrated faucets, transaction history with explorer links, and comprehensive cross-chain wallet functionality.
                   </p>
-                  <div className="text-sm text-blue-400 font-mono ml-9">Somina Network, Unified Interface, EVM Compatible</div>
+                  <div className="text-sm text-blue-400 font-mono ml-9">Push Chain Network, Universal Interface, Cross-Chain Compatible</div>
                 </div>
 
                 <div>
@@ -333,23 +333,23 @@ function AboutPage() {
                     Smart Contract Escrow & QR Integration
                   </h3>
                   <p className="text-gray-400 text-sm md:text-lg leading-relaxed ml-9 mb-2">
-                    Advanced smart contract escrow system with refund & claim flows deployed on Somina network.
+                    Advanced smart contract escrow system with refund & claim flows deployed on Push Chain network.
                     Integrated QR code functionality for address sharing and scanning, plus AI chatbot assistance for seamless user experience.
-                    Automated fund management with transparent transaction tracking.
+                    Automated fund management with transparent cross-chain transaction tracking.
                   </p>
-                  <div className="text-sm text-blue-400 font-mono ml-9">Solidity, QR Integration, AI Assistant, Escrow Patterns</div>
+                  <div className="text-sm text-blue-400 font-mono ml-9">Solidity, QR Integration, AI Assistant, Universal Escrow Patterns</div>
                 </div>
 
                 <div>
                   <h3 className="text-xl font-semibold text-white mb-3 flex items-center">
                     <Server className="h-6 w-6 text-purple-500 mr-3" />
-                    EVM Compatibility
+                    Universal Chain Compatibility
                   </h3>
                   <p className="text-gray-400 text-sm md:text-lg leading-relaxed ml-9 mb-2">
-                    Full EVM compatibility with ethers.js v6.15.0 for robust blockchain interaction. Support for EIP-155 chain IDs,
-                    EIP-1559 gas fees, and seamless MetaMask compatibility on Somina network.
+                    Full cross-chain compatibility with ethers.js v6.15.0 for robust blockchain interaction. Support for EIP-155 chain IDs,
+                    EIP-1559 gas fees, and seamless MetaMask compatibility across Push Chain's universal platform.
                   </p>
-                  <div className="text-sm text-blue-400 font-mono ml-9">ethers.js, JSON-RPC, EIP standards</div>
+                  <div className="text-sm text-blue-400 font-mono ml-9">ethers.js, JSON-RPC, Universal Standards</div>
                 </div>
 
                 <div>
@@ -419,7 +419,7 @@ function AboutPage() {
                 <p className="text-gray-400 text-sm">Transparent Code</p>
               </div>
             </div>
-{/* 
+            {/* 
             <div className="flex flex-wrap justify-center gap-6">
               <a
                 href="https://github.com/chetanck03/SominaWalletX" target="_blank"

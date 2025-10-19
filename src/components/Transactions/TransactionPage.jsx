@@ -9,16 +9,16 @@ import { WALLETX_CONTRACT_ADDRESS } from '../../lib/contractUtils'
 import QRCodeModal from '../Wallet/EthComponents/QRCodeModal'
 
 // Import blockchain logos
-import somniaLogo from '../../assests/somnia.svg'
+import pushchainLogo from '../../assests/pushchain.png'
 
 function TransactionPage() {
     const { address } = useParams()
     const navigate = useNavigate()
     const [walletData, setWalletData] = useState(null)
-    const [currentBlockchain, setCurrentBlockchain] = useState('somnia') // Only Somnia supported
+    const [currentBlockchain, setCurrentBlockchain] = useState('pushchain') // Only Push Chain supported
     const [showQRModal, setShowQRModal] = useState(false)
 
-    // Get all available blockchains for network selection (only Somnia)
+    // Get all available blockchains for network selection (only Push Chain)
     const availableBlockchains = Object.keys(NETWORK_CONFIGS).map(blockchainId => ({
         id: blockchainId,
         name: NETWORK_CONFIGS[blockchainId].name,
@@ -29,17 +29,17 @@ function TransactionPage() {
     // Function to get the correct logo based on blockchain
     const getBlockchainLogo = (blockchain) => {
         switch (blockchain) {
-            case 'somnia':
-                return somniaLogo
+            case 'pushchain':
+                return pushchainLogo
             default:
-                return somniaLogo // fallback to somnia
+                return pushchainLogo // fallback to pushchain
         }
     }
 
-    // Handle blockchain change (only Somnia supported)
+    // Handle blockchain change (only Push Chain supported)
     const handleBlockchainChange = (newBlockchain) => {
-        // Only allow Somnia
-        if (newBlockchain === 'somnia') {
+        // Only allow Push Chain
+        if (newBlockchain === 'pushchain') {
             setCurrentBlockchain(newBlockchain)
             // Update localStorage to persist selection
             localStorage.setItem('selected_network', newBlockchain)
@@ -47,7 +47,7 @@ function TransactionPage() {
             window.dispatchEvent(new CustomEvent('blockchainChanged', { detail: newBlockchain }))
             toast.success(`Switched to ${NETWORK_CONFIGS[newBlockchain].name}`)
         } else {
-            toast.error('Only Somnia network is supported')
+            toast.error('Only Push Chain network is supported')
         }
     }
 
@@ -65,8 +65,8 @@ function TransactionPage() {
     }
 
     useEffect(() => {
-        // Get the current blockchain from localStorage (only Somnia supported)
-        const savedNetwork = localStorage.getItem('selected_network') || 'somnia'
+        // Get the current blockchain from localStorage (only Push Chain supported)
+        const savedNetwork = localStorage.getItem('selected_network') || 'pushchain'
         setCurrentBlockchain(savedNetwork)
 
         // Debug: Log what we're looking for
@@ -78,7 +78,7 @@ function TransactionPage() {
         // Get wallet data from shared EVM wallets storage
         // Since wallets are shared across all EVM chains, check unified storage first
         let foundWallet = null
-        
+
         // First check unified EVM storage
         const unifiedWallets = localStorage.getItem('evm_shared_wallets')
         console.log('- Unified wallets storage:', unifiedWallets)
@@ -99,7 +99,7 @@ function TransactionPage() {
                 console.error('Error parsing unified wallet data:', error)
             }
         }
-        
+
         // If not found, try legacy storage for backward compatibility
         if (!foundWallet) {
             // Try to find the wallet in any blockchain's storage
@@ -107,7 +107,7 @@ function TransactionPage() {
                 if (!foundWallet) {
                     const storageKey = `evm_wallets_${blockchainId}`
                     const savedWallets = localStorage.getItem(storageKey)
-                    
+
                     if (savedWallets) {
                         try {
                             const wallets = JSON.parse(savedWallets)
@@ -124,7 +124,7 @@ function TransactionPage() {
                     }
                 }
             })
-        
+
             // Also check the old 'evm_wallets' key for backward compatibility
             if (!foundWallet) {
                 const savedWallets = localStorage.getItem('evm_wallets')
@@ -210,7 +210,7 @@ function TransactionPage() {
                                     </div>
                                 </div>
                                 <h1 className="text-lg sm:text-xl font-semibold capitalize text-white font-geist">
-                                    Somnia Wallet #{walletData.index !== undefined ? walletData.index + 1 : ''}
+                                    Push Chain Wallet #{walletData.index !== undefined ? walletData.index + 1 : ''}
                                 </h1>
                             </div>
 
@@ -244,7 +244,7 @@ function TransactionPage() {
                     </div>
                 </div>
 
-                {/* Blockchain Network Selection - ONLY SOMNIA */}
+                {/* Blockchain Network Selection - ONLY PUSH CHAIN */}
                 <div className="w-full max-w-4xl mx-auto mb-6 sm:mb-8">
                     <div className="relative">
                         <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 to-blue-400/20 rounded-xl blur opacity-75"></div>
@@ -256,26 +256,26 @@ function TransactionPage() {
                                         <Network className="text-purple-400" size={20} />
                                     </div>
                                 </div>
-                                <h2 className="text-lg sm:text-xl font-semibold text-white font-geist">Somnia Network</h2>
+                                <h2 className="text-lg sm:text-xl font-semibold text-white font-geist">Push Chain Network</h2>
                             </div>
-                            
-                            
-                            
+
+
+
                             {/* Current Network Info */}
                             <div className="mt-6 p-4 bg-neutral-800/30 border  border-neutral-600 rounded-lg">
                                 <div className="flex items-center gap-3">
-                                    <img 
-                                        src={getBlockchainLogo(currentBlockchain)} 
-                                        alt={NETWORK_CONFIGS[currentBlockchain]?.name} 
-                                         width={32} 
-                                         height={32} 
+                                    <img
+                                        src={getBlockchainLogo(currentBlockchain)}
+                                        alt={NETWORK_CONFIGS[currentBlockchain]?.name}
+                                        width={32}
+                                        height={32}
                                     />
                                     <div>
                                         <p className="text-sm sm:text-base font-medium text-white">
                                             <span className='text-purple-400'>Active Network:</span> {NETWORK_CONFIGS[currentBlockchain]?.networks.testnet.name}
                                         </p>
                                         <p className="text-sm sm:text-base text-gray-400">
-                                            Your wallet works on the Somnia network
+                                            Your wallet works on the Push Chain network
                                         </p>
                                     </div>
                                 </div>
@@ -298,7 +298,7 @@ function TransactionPage() {
                     isOpen={showQRModal}
                     onClose={handleCloseQRModal}
                     walletAddress={walletData?.publicKey || address}
-                    walletName={`Somnia Wallet #${walletData?.index !== undefined ? walletData.index + 1 : ''}`}
+                    walletName={`Push Chain Wallet #${walletData?.index !== undefined ? walletData.index + 1 : ''}`}
                 />
             </div>
         </div>

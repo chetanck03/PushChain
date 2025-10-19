@@ -352,14 +352,14 @@ export const WALLETX_ABI = [
 	}
 ]
 
-// Multi-blockchain contract address configuration - ONLY SOMNIA NETWORK
+// Multi-blockchain contract address configuration - ONLY PUSH CHAIN NETWORK
 export const getWalletXContractAddress = (blockchain) => {
-	// Only support Somnia network
-	if (blockchain !== 'somnia') {
-		throw new Error(`Unsupported blockchain: ${blockchain}. Only Somnia network is supported.`)
+	// Only support Push Chain network
+	if (blockchain !== 'pushchain') {
+		throw new Error(`Unsupported blockchain: ${blockchain}. Only Push Chain network is supported.`)
 	}
 	
-	const envAddress = import.meta.env.VITE_SOMNIA_CONTRACT_ADDRESS
+	const envAddress = import.meta.env.VITE_PUSHCHAIN_CONTRACT_ADDRESS
 	if (envAddress && ethers.isAddress(envAddress) && envAddress !== '0x0000000000000000000000000000000000000000') {
 		console.log(`Using ${blockchain} contract address:`, envAddress)
 		return envAddress
@@ -372,8 +372,8 @@ export const getWalletXContractAddress = (blockchain) => {
 	return placeholderAddress
 }
 
-// Legacy export for backward compatibility (defaults to somnia)
-export const WALLETX_CONTRACT_ADDRESS = getWalletXContractAddress('somnia')
+// Legacy export for backward compatibility (defaults to pushchain)
+export const WALLETX_CONTRACT_ADDRESS = getWalletXContractAddress('pushchain')
 
 // Escrow status enum
 export const EscrowStatus = {
@@ -384,16 +384,16 @@ export const EscrowStatus = {
 
 /**
  * Get WalletX contract instance with proper validation
- * @param {string} blockchain - The blockchain name (only 'somnia' supported)
+ * @param {string} blockchain - The blockchain name (only 'pushchain' supported)
  * @param {string} network - The network name
  * @param {string} privateKey - Optional private key for write operations
  * @returns {ethers.Contract} Contract instance
  */
 export const getWalletXContract = (blockchain, network, privateKey = null) => {
     try {
-        // Only support Somnia network
-        if (blockchain !== 'somnia') {
-            throw new Error(`Unsupported blockchain: ${blockchain}. Only Somnia network is supported.`)
+        // Only support Push Chain network
+        if (blockchain !== 'pushchain') {
+            throw new Error(`Unsupported blockchain: ${blockchain}. Only Push Chain network is supported.`)
         }
         
         const contractAddress = getWalletXContractAddress(blockchain)
@@ -430,15 +430,15 @@ export const getWalletXContract = (blockchain, network, privateKey = null) => {
 
 /**
  * Validate contract connectivity
- * @param {string} blockchain - The blockchain name (only 'somnia' supported)
+ * @param {string} blockchain - The blockchain name (only 'pushchain' supported)
  * @param {string} network - The network name
  * @returns {Promise<boolean>} True if contract is accessible
  */
 export const validateContractConnectivity = async (blockchain, network) => {
     try {
-        // Only support Somnia network
-        if (blockchain !== 'somnia') {
-            console.warn(`Unsupported blockchain: ${blockchain}. Only Somnia network is supported.`)
+        // Only support Push Chain network
+        if (blockchain !== 'pushchain') {
+            console.warn(`Unsupported blockchain: ${blockchain}. Only Push Chain network is supported.`)
             return false
         }
         
@@ -463,13 +463,13 @@ export const validateContractConnectivity = async (blockchain, network) => {
 
 /**
  * Check if contract is deployed on blockchain
- * @param {string} blockchain - The blockchain name (only 'somnia' supported)
+ * @param {string} blockchain - The blockchain name (only 'pushchain' supported)
  * @returns {boolean} True if contract is deployed
  */
 export const isContractDeployed = (blockchain) => {
     try {
-        // Only support Somnia network
-        if (blockchain !== 'somnia') {
+        // Only support Push Chain network
+        if (blockchain !== 'pushchain') {
             return false
         }
         

@@ -51,9 +51,9 @@ function EVMWallet({ blockchain }) {
 
     // Load data from localStorage on component mount
     useEffect(() => {
-        // Only support Somnia network
-        if (blockchain !== 'somnia') {
-            toast.error('Only Somnia network is supported')
+        // Only support Push Chain network
+        if (blockchain !== 'pushchain') {
+            toast.error('Only Push Chain network is supported')
             return
         }
         
@@ -116,7 +116,7 @@ function EVMWallet({ blockchain }) {
         clearAllEVMData()
 
         setShowGeneratePhraseModal(false)
-        toast.success('New seed phrase generated for Somnia network!')
+        toast.success('New seed phrase generated for Push Chain network!')
     }
 
     const handleImportPhrase = () => {
@@ -136,7 +136,7 @@ function EVMWallet({ blockchain }) {
 
             setShowImportModal(false)
             setImportSeedInput('')
-            toast.success('Seed phrase imported for Somnia network!')
+            toast.success('Seed phrase imported for Push Chain network!')
         } else {
             toast.error(result.error)
         }
@@ -241,8 +241,8 @@ function EVMWallet({ blockchain }) {
         if (networkConfig?.explorerUrl) {
             window.open(`${networkConfig.explorerUrl}/address/${publicKey}`, '_blank')
         } else {
-            // Fallback to Somnia explorer
-            window.open(`https://shannon-explorer.somnia.network/address/${publicKey}`, '_blank')
+            // Fallback to Push Chain explorer
+            window.open(`https://donut.push.network/address/${publicKey}`, '_blank')
         }
     }
 
@@ -268,7 +268,7 @@ function EVMWallet({ blockchain }) {
             <div className="min-h-screen bg-gradient-to-br from-neutral-950 via-neutral-900 to-black flex items-center justify-center">
                 <div className="text-center">
                     <h2 className="text-2xl font-bold text-white mb-4">Unsupported Blockchain</h2>
-                    <p className="text-gray-400">Only Somnia network is supported.</p>
+                    <p className="text-gray-400">Only Push Chain network is supported.</p>
                 </div>
             </div>
         )

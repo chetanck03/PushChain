@@ -1,5 +1,5 @@
-#  WalletX - Revolutionary Somnia DeFi Platform
-## World's First Temporary Wallet Technology + Revolutionary Somnia Escrow Platform + WalletX AI Assistance & QR Integration
+#  WalletX - Revolutionary Push Chain DeFi Platform
+## World's First Temporary Wallet Technology + Revolutionary Push Chain Escrow Platform + WalletX AI Assistance & QR Integration
 
 
 > **🎥 Video Demo**: [youtube.com/walletx](https://youtu.be/rPhVgsLBm7o)  
@@ -11,7 +11,7 @@ WalletX is a **game-changing escrow platform** that revolutionizes DeFi with sma
 ### 🎯 **WalletX**
 - **🤝 Trustless Escrow System**: Smart contract-powered P2P transactions without intermediaries
 - **🔄 Revolutionary Temporary Wallets**: World's first disposable wallet technology for DeFi
-- **🌐 Somnia Network**: Seamless experience on the Somnia Testnet
+- **🌐 Push Chain Network**: Seamless experience on the Push Chain Donut Testnet
 - **📱 QR Code Integration**: Complete QR generation and scanning functionality
 - **🤖 AI Assistant**: Integrated WalletX AI for real-time user support
 - **📱 Production Ready**: Professional-grade mobile-responsive interface
@@ -67,13 +67,13 @@ WalletX is a **game-changing escrow platform** that revolutionizes DeFi with sma
 ✅ Transaction history on Somnia
 ```
 
-## 🛠️ **Smart Contract Deployment on Somnia Network**
+## 🛠️ **Smart Contract Deployment on Push Chain Network**
 
-Our **WalletX Escrow Contract** is deployed and verified on the Somnia Testnet:
+Our **WalletX Escrow Contract** is deployed and verified on the Push Chain Donut Testnet:
 
 | **Network** | **Contract Address** |
 |-------------|---------------------|
-| **Somnia Testnet** | `0x60Dfc970af7409EEEB7520C5DF2dfD7E89734790` | 
+| **Push Chain Donut Testnet** | `0x1f060920E7559219C791b9F6A0fe305c23441A4a` | 
 
 
 ### 📝 **Core Smart Contract Functions**
@@ -120,7 +120,7 @@ contract WalletX {
 - **World's First**: Temporary wallet technology in DeFi space
 - **AI Integration**: First escrow platform with built-in AI assistant
 - **QR Complete**: Full QR generation + scanning ecosystem
-- **Network Focus**: Specialized experience on Somnia Testnet
+- **Network Focus**: Specialized experience on Push Chain Donut Testnet
 
 #### 🔧 **Technical Excellence:**
 - **1 Deployed Contract**: Live smart contract on Somnia Testnet
@@ -203,8 +203,8 @@ cd Somnia
 npm install
 
 # Create .env file with required configuration
-VITE_SOMNIA_TESTNET_RPC_URL=https://dream-rpc.somnia.network
-VITE_SOMNIA_CONTRACT_ADDRESS=0x0000000000000000000000000000000000000000
+VITE_PUSHCHAIN_TESTNET_RPC_URL=https://evm.rpc-testnet-donut-node1.push.org
+VITE_PUSHCHAIN_CONTRACT_ADDRESS=0x1f060920E7559219C791b9F6A0fe305c23441A4a
 
 VITE_EMAILJS_SERVICE_ID=your_emailjs_service_id
 VITE_EMAILJS_TEMPLATE_ID=your_emailjs_template_id

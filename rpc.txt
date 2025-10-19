@@ -1,0 +1,12 @@
+Push Chain Donut Testnet
+evm.rpc-testnet-donut-node1.push.org
+Chain ID
+42101
+Currency symbol
+PC
+Block explorer URL
+donut.push.network
+
+
+
+WalletX pushchain testnet contract address : 0x1f060920E7559219C791b9F6A0fe305c23441A4a
