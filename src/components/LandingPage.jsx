@@ -7,7 +7,7 @@ import BlockchainCarousel from './BlockchainCarousel'
 
 // Import all blockchain logos
 import bitcoinLogo from '../assests/bitcoin-btc-logo.svg'
-import ethereumLogo from '../assests/ethereum-eth-logo.svg'
+import ethereumLogo from '../assests/logo.svg'
 import solanaLogo from '../assests/solana-sol-logo.svg'
 import polygonLogo from '../assests/polygon-matic-logo.svg'
 import avalancheLogo from '../assests/avalanche-avax-logo.svg'
