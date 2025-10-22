@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Send, RefreshCw, Copy, Network, QrCode } from 'lucide-react'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { ArrowLeft, Send, RefreshCw, Copy, Network, QrCode, Key, Zap } from 'lucide-react'
 import toast from 'react-hot-toast'
 import EVMTransaction from './EVMTransaction'
 import EscrowTransaction from './EscrowTransaction'
@@ -14,9 +14,11 @@ import pushchainLogo from '../../assests/pushchain.png'
 function TransactionPage() {
     const { address } = useParams()
     const navigate = useNavigate()
+    const location = useLocation()
     const [walletData, setWalletData] = useState(null)
     const [currentBlockchain, setCurrentBlockchain] = useState('pushchain') // Only Push Chain supported
     const [showQRModal, setShowQRModal] = useState(false)
+    const [walletType, setWalletType] = useState('bip') // 'bip' or 'pushchain-sdk'
 
     // Get all available blockchains for network selection (only Push Chain)
     const availableBlockchains = Object.keys(NETWORK_CONFIGS).map(blockchainId => ({
@@ -69,39 +71,61 @@ function TransactionPage() {
         const savedNetwork = localStorage.getItem('selected_network') || 'pushchain'
         setCurrentBlockchain(savedNetwork)
 
+        // Determine wallet type from URL path or location state
+        let detectedWalletType = 'bip' // default
+        if (location.pathname.includes('pushchain-ui')) {
+            detectedWalletType = 'pushchain-ui'
+        } else if (location.state?.walletType) {
+            detectedWalletType = location.state.walletType
+        }
+        setWalletType(detectedWalletType)
+
         // Debug: Log what we're looking for
         console.log('🔍 TransactionPage Debug:')
         console.log('- Looking for wallet address:', address)
         console.log('- Saved network:', savedNetwork)
+        console.log('- Detected wallet type:', detectedWalletType)
         console.log('- Available storage keys:', Object.keys(localStorage))
 
-        // Get wallet data from shared EVM wallets storage
-        // Since wallets are shared across all EVM chains, check unified storage first
         let foundWallet = null
 
-        // First check unified EVM storage
-        const unifiedWallets = localStorage.getItem('evm_shared_wallets')
-        console.log('- Unified wallets storage:', unifiedWallets)
-        if (unifiedWallets) {
-            try {
-                const wallets = JSON.parse(unifiedWallets)
-                console.log('- Parsed wallets:', wallets)
-                console.log('- Number of wallets:', wallets.length)
-                const wallet = wallets.find(w => w.publicKey === address)
-                console.log('- Found wallet in unified storage:', wallet)
-                if (wallet) {
-                    foundWallet = {
-                        ...wallet,
-                        blockchain: savedNetwork
+        // Search based on wallet type
+        if (detectedWalletType === 'pushchain-ui') {
+            // For Push Chain UI Kit, create a mock wallet data since it's handled by the UI Kit
+            foundWallet = {
+                publicKey: address,
+                address: address,
+                blockchain: savedNetwork,
+                walletType: 'pushchain-ui',
+                name: 'Push Chain Universal Account'
+            }
+        } else {
+            // Search in BIP wallets (existing logic)
+            // First check unified EVM storage
+            const unifiedWallets = localStorage.getItem('evm_shared_wallets')
+            console.log('- Unified wallets storage:', unifiedWallets)
+            if (unifiedWallets) {
+                try {
+                    const wallets = JSON.parse(unifiedWallets)
+                    console.log('- Parsed wallets:', wallets)
+                    console.log('- Number of wallets:', wallets.length)
+                    const wallet = wallets.find(w => w.publicKey === address)
+                    console.log('- Found wallet in unified storage:', wallet)
+                    if (wallet) {
+                        foundWallet = {
+                            ...wallet,
+                            blockchain: savedNetwork,
+                            walletType: 'bip'
+                        }
                     }
+                } catch (error) {
+                    console.error('Error parsing unified wallet data:', error)
                 }
-            } catch (error) {
-                console.error('Error parsing unified wallet data:', error)
             }
         }
 
-        // If not found, try legacy storage for backward compatibility
-        if (!foundWallet) {
+        // If not found and it's BIP wallet, try legacy storage for backward compatibility
+        if (!foundWallet && detectedWalletType === 'bip') {
             // Try to find the wallet in any blockchain's storage
             Object.keys(NETWORK_CONFIGS).forEach(blockchainId => {
                 if (!foundWallet) {
@@ -115,7 +139,8 @@ function TransactionPage() {
                             if (wallet) {
                                 foundWallet = {
                                     ...wallet,
-                                    blockchain: savedNetwork
+                                    blockchain: savedNetwork,
+                                    walletType: 'bip'
                                 }
                             }
                         } catch (error) {
@@ -135,7 +160,8 @@ function TransactionPage() {
                         if (wallet) {
                             foundWallet = {
                                 ...wallet,
-                                blockchain: savedNetwork
+                                blockchain: savedNetwork,
+                                walletType: 'bip'
                             }
                         }
                     } catch (error) {
@@ -150,13 +176,17 @@ function TransactionPage() {
             setWalletData(foundWallet)
         } else {
             console.log('❌ Wallet not found anywhere!')
-            console.log('- Searched in unified storage: evm_shared_wallets')
-            console.log('- Searched in legacy storage for all networks')
+            console.log('- Searched wallet type:', detectedWalletType)
             console.log('- Address being searched:', address)
             toast.error('Wallet not found')
-            navigate('/dashboard')
+            // Navigate back to appropriate wallet interface
+            if (detectedWalletType === 'pushchain-ui') {
+                navigate('/pushchain-wallet')
+            } else {
+                navigate('/dashboard')
+            }
         }
-    }, [address, navigate])
+    }, [address, navigate, location])
 
     if (!walletData) {
         return (
@@ -185,9 +215,13 @@ function TransactionPage() {
                 <div className="flex items-center mb-6 sm:mb-8">
                     <button
                         onClick={() => {
-                            // Keep the selected network and set the selected blockchain to 'evm' so dashboard shows EVM wallet section
-                            localStorage.setItem('selected_blockchain', 'evm')
-                            navigate('/dashboard')
+                            // Navigate back to appropriate wallet interface based on wallet type
+                            if (walletType === 'pushchain-ui') {
+                                navigate('/pushchain-wallet')
+                            } else {
+                                localStorage.setItem('selected_blockchain', 'evm')
+                                navigate('/dashboard')
+                            }
                         }}
                         className="flex items-center gap-2 text-gray-300 hover:text-white transition-all duration-200 font-medium bg-neutral-900/70 backdrop-blur-sm border border-neutral-600 hover:border-neutral-400 rounded-lg px-4 py-2.5 shadow-lg hover:shadow-xl transform hover:scale-105"
                     >
@@ -205,13 +239,22 @@ function TransactionPage() {
                                     <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                                     <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-neutral-950 backdrop-blur-3xl">
                                         <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-400/20 border border-purple-500/30 flex items-center justify-center">
-                                            <Send size={20} className="text-purple-400" />
+                                            {walletType === 'pushchain-ui' ? (
+                                                <Zap size={20} className="text-purple-400" />
+                                            ) : (
+                                                <Key size={20} className="text-blue-400" />
+                                            )}
                                         </div>
                                     </div>
                                 </div>
-                                <h1 className="text-lg sm:text-xl font-semibold capitalize text-white font-geist">
-                                    Push Chain Wallet #{walletData.index !== undefined ? walletData.index + 1 : ''}
-                                </h1>
+                                <div>
+                                    <h1 className="text-lg sm:text-xl font-semibold capitalize text-white font-geist">
+                                        {walletType === 'pushchain-ui' ? 'Push Chain Universal' : 'BIP HD'} Wallet #{walletData.index !== undefined ? walletData.index + 1 : (walletData.name ? walletData.name.replace(/\D/g, '') : '')}
+                                    </h1>
+                                    <p className="text-sm text-gray-400">
+                                        {walletType === 'pushchain-ui' ? 'Universal Execution Account' : 'Standard HD Wallet'}
+                                    </p>
+                                </div>
                             </div>
 
                             <div>

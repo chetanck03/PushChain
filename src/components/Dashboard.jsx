@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   ArrowRight,
   CheckCircle,
@@ -11,6 +12,7 @@ import WalletComponent from './Wallet/Wallet'
 import pushchainLogo from '../assests/pushchain.png'
 
 function Dashboard() {
+  const navigate = useNavigate()
   const [selectedBlockchain, setSelectedBlockchain] = useState(null)
 
   useEffect(() => {
@@ -106,8 +108,8 @@ function Dashboard() {
           <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto">
             <div
               onClick={() => {
-                setSelectedBlockchain('evm')
-                localStorage.setItem('selected_blockchain', 'evm')
+                // Navigate to wallet selection page
+                navigate('/wallet-selection')
               }}
               className="group cursor-pointer relative"
             >
@@ -165,7 +167,7 @@ function Dashboard() {
                     </div>
                   </div>
 
-                 
+
 
                   <div className="mt-auto">
                     <span className="relative inline-block overflow-hidden rounded-full p-[1.5px] w-full cursor-pointer">

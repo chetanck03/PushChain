@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ethers } from 'ethers'
-import { 
-  Wallet, 
-  Send, 
-  RefreshCw, 
-  AlertCircle, 
-  Droplets, 
-  ExternalLink, 
-  Shield, 
-  Clock, 
-  CheckCircle, 
+import {
+  Wallet,
+  Send,
+  RefreshCw,
+  AlertCircle,
+  Droplets,
+  ExternalLink,
+  Shield,
+  Clock,
+  CheckCircle,
   XCircle,
   ArrowUpRight,
   ArrowDownLeft,
   History,
   QrCode,
-  Camera
+  Camera,
+  Zap
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { getBlockchainConfig, getNetworkConfig } from '../../lib/networks'
 import { getEVMBalance, getEVMProvider } from '../../lib/evmWalletUtils'
-import { 
+import {
   createEscrow,
   claimEscrow,
   refundEscrow,
@@ -35,6 +37,14 @@ import {
   WALLETX_CONTRACT_ADDRESS,
   debugEscrow
 } from '../../lib/contractUtils'
+import {
+  createEscrowWithPushChain,
+  claimEscrowWithPushChain,
+  refundEscrowWithPushChain,
+  getPushChainClientFromStorage
+} from '../../lib/pushChainEscrowOperations'
+// Note: Push Chain UI Kit hooks removed to avoid provider context errors
+// We'll use global client and storage-based detection instead
 import QRScannerModal from '../Wallet/EthComponents/QRScannerModal'
 import polygonLogo from '../../assests/polygon-matic-logo.svg'
 import baseLogo from '../../assests/base-logo.svg'
@@ -46,11 +56,34 @@ import liskLogo from '../../assests/lisk-logo.svg'
 import citeraLogo from '../../assests/citera-logo.svg'
 
 function EscrowTransaction({ walletData, blockchain }) {
+  const navigate = useNavigate()
   const [balance, setBalance] = useState('0')
   const [loading, setLoading] = useState(false)
   const [activeTab, setActiveTab] = useState('send')
   const [currentBlockchain, setCurrentBlockchain] = useState(blockchain)
-  
+
+  // Get Push Chain client from global context or storage (no hooks needed)
+  const [pushChainClient, setPushChainClient] = useState(null)
+
+  // Check for Push Chain client availability
+  useEffect(() => {
+    // Try global client first
+    if (typeof window !== 'undefined' && window.pushChainClient) {
+      setPushChainClient(window.pushChainClient)
+      console.log('✅ Found global Push Chain client')
+    } else {
+      // Check if we have stored connection (for display purposes)
+      const storedConnection = localStorage.getItem('pushchain_ui_connection')
+      if (storedConnection) {
+        console.log('📦 Found stored Push Chain connection (client not active)')
+      }
+    }
+  }, [])
+
+  // Detect if this is a Push Chain Universal Wallet
+  const isPushChainWallet = walletData?.walletType === 'pushchain-ui' ||
+    (walletData?.publicKey && !walletData?.privateKey)
+
   // Initialize network with testnet as default
   const [network, setNetwork] = useState(() => {
     const config = getBlockchainConfig(blockchain)
@@ -73,7 +106,7 @@ function EscrowTransaction({ walletData, blockchain }) {
     if (savedNetwork && savedNetwork !== blockchain) {
       setCurrentBlockchain(savedNetwork)
     }
-    
+
     // Reset to testnet when switching blockchains
     const config = getBlockchainConfig(savedNetwork || blockchain)
     if (config) {
@@ -94,10 +127,10 @@ function EscrowTransaction({ walletData, blockchain }) {
     amount: '',
     gasLimit: '500000' // Higher default for better reliability with complex contracts
   })
-  
+
   const [sending, setSending] = useState(false)
   const [transactionStatus, setTransactionStatus] = useState('')
-  
+
   // Escrow data
   const [escrowHistory, setEscrowHistory] = useState([])
   const [pendingActions, setPendingActions] = useState({ claimable: [], refundable: [] })
@@ -159,7 +192,7 @@ function EscrowTransaction({ walletData, blockchain }) {
   const fetchEscrowData = async (showToast = true) => {
     try {
       console.log('🔄 Fetching escrow data - including real-time status updates from blockchain')
-      
+
       // Get escrow history with real-time status updates from blockchain
       console.log('📡 Fetching escrow history with real-time status from contract...')
       const historyWithUpdatedStatus = await getEscrowTransactionHistoryWithRealTimeStatus(currentBlockchain, network, walletData.publicKey, 50)
@@ -169,35 +202,35 @@ function EscrowTransaction({ walletData, blockchain }) {
       // Fetch fresh pending actions from contract
       try {
         console.log('🌐 Fetching fresh pending actions from contract...')
-        
+
         // Fetch pending actions from contract
         console.log('Fetching pending actions for wallet:', walletData.publicKey)
         const actions = await getPendingActions(currentBlockchain, network, walletData.publicKey)
         console.log('Pending actions fetched in component:', actions)
-        
+
         // Validate the structure of the returned actions
         if (actions && typeof actions === 'object') {
           const claimable = Array.isArray(actions.claimable) ? actions.claimable : []
           const refundable = Array.isArray(actions.refundable) ? actions.refundable : []
-          
+
           setPendingActions({
             claimable,
             refundable
           })
-          
+
           console.log('✅ Pending actions updated:', { claimable, refundable })
         } else {
           console.error('Invalid pending actions structure:', actions)
           setPendingActions({ claimable: [], refundable: [] })
         }
-        
+
         console.log('✅ Fresh contract data fetched successfully')
-        
+
         // Show success message to user
         if (showToast) {
           toast.success('🔄 Data refreshed with real-time status!')
         }
-        
+
       } catch (actionsError) {
         console.error('❌ Error fetching fresh contract data:', actionsError)
         // Set empty arrays to avoid UI errors, but keep updated history
@@ -206,7 +239,7 @@ function EscrowTransaction({ walletData, blockchain }) {
           toast.error(`Failed to fetch fresh data: ${actionsError.message}`)
         }
       }
-      
+
       console.log('🎉 Escrow data refresh with real-time status completed')
     } catch (error) {
       console.error('❌ Error in fetchEscrowData:', error)
@@ -229,19 +262,19 @@ function EscrowTransaction({ walletData, blockchain }) {
       fetchBalance()
       fetchEscrowData(false) // Don't show toast on initial load
     }
-    
+
     // Make debug function available in console
     if (typeof window !== 'undefined') {
       window.debugEscrow = (escrowId) => {
         return debugEscrow(currentBlockchain, network, escrowId, walletData.publicKey)
       }
-      
+
       // Add debug helper for transaction history
       window.debugEscrowHistory = () => {
         const { debugEscrowTransactions } = require('../../lib/escrowStorage')
         return debugEscrowTransactions(currentBlockchain, network, walletData.publicKey)
       }
-      
+
       // Add debug helper for localStorage keys
       window.debugEscrowStorage = () => {
         const keys = Object.keys(localStorage).filter(key => key.includes('escrow_tx_history'))
@@ -252,7 +285,7 @@ function EscrowTransaction({ walletData, blockchain }) {
         })
         return keys
       }
-      
+
       console.log('🔧 Debug helpers available:')
       console.log('  - window.debugEscrow(escrowId) - Debug specific escrow')
       console.log('  - window.debugEscrowHistory() - Show cached transaction history')
@@ -309,18 +342,51 @@ function EscrowTransaction({ walletData, blockchain }) {
     setTransactionStatus('Creating escrow...')
 
     try {
-      const txResponse = await createEscrow(
-        currentBlockchain,
-        network,
-        walletData.privateKey,
-        sendForm.to,
-        sendForm.amount,
-        sendForm.gasLimit
-      )
+      let txResponse
+
+      if (isPushChainWallet) {
+        // Use Push Chain Universal Wallet
+        console.log('Creating escrow with Push Chain Universal Wallet')
+
+        // Get Push Chain client
+        let client = pushChainClient
+        if (!client) {
+          // Try to get from storage or global context
+          client = getPushChainClientFromStorage()
+          if (!client) {
+            throw new Error('Push Chain client not available. Please reconnect your wallet.')
+          }
+        }
+
+        txResponse = await createEscrowWithPushChain(
+          client,
+          currentBlockchain,
+          network,
+          walletData.publicKey, // UEA address
+          sendForm.to,
+          sendForm.amount
+        )
+      } else {
+        // Use traditional private key wallet
+        console.log('Creating escrow with traditional wallet')
+
+        if (!walletData.privateKey) {
+          throw new Error('Private key not available for this wallet')
+        }
+
+        txResponse = await createEscrow(
+          currentBlockchain,
+          network,
+          walletData.privateKey,
+          sendForm.to,
+          sendForm.amount,
+          sendForm.gasLimit
+        )
+      }
 
       toast.success(`Escrow created! Hash: ${txResponse.hash}`)
       setTransactionStatus('Waiting for confirmation...')
-      
+
       // Handle the transaction receipt
       let receipt;
       try {
@@ -361,9 +427,35 @@ function EscrowTransaction({ walletData, blockchain }) {
   const handleClaimEscrow = async (escrowId) => {
     setLoadingActions(prev => ({ ...prev, [`claim-${escrowId}`]: true }))
     try {
-      const txResponse = await claimEscrow(currentBlockchain, network, walletData.privateKey, escrowId)
+      let txResponse
+
+      if (isPushChainWallet) {
+        // Use Push Chain Universal Wallet
+        let client = pushChainClient
+        if (!client) {
+          client = getPushChainClientFromStorage()
+          if (!client) {
+            throw new Error('Push Chain client not available. Please reconnect your wallet.')
+          }
+        }
+
+        txResponse = await claimEscrowWithPushChain(
+          client,
+          currentBlockchain,
+          network,
+          walletData.publicKey,
+          escrowId
+        )
+      } else {
+        // Use traditional private key wallet
+        if (!walletData.privateKey) {
+          throw new Error('Private key not available for this wallet')
+        }
+
+        txResponse = await claimEscrow(currentBlockchain, network, walletData.privateKey, escrowId)
+      }
       toast.success(`Claim transaction sent! Hash: ${txResponse.hash}`)
-      
+
       let receipt;
       try {
         // Check if wait method exists and is a function
@@ -380,7 +472,7 @@ function EscrowTransaction({ walletData, blockchain }) {
         console.warn('Error waiting for claim transaction:', waitError)
         // Continue with the flow even if waiting fails
       }
-      
+
       await fetchBalance()
       await fetchEscrowData(false)
     } catch (error) {
@@ -394,9 +486,35 @@ function EscrowTransaction({ walletData, blockchain }) {
   const handleRefundEscrow = async (escrowId) => {
     setLoadingActions(prev => ({ ...prev, [`refund-${escrowId}`]: true }))
     try {
-      const txResponse = await refundEscrow(currentBlockchain, network, walletData.privateKey, escrowId)
+      let txResponse
+
+      if (isPushChainWallet) {
+        // Use Push Chain Universal Wallet
+        let client = pushChainClient
+        if (!client) {
+          client = getPushChainClientFromStorage()
+          if (!client) {
+            throw new Error('Push Chain client not available. Please reconnect your wallet.')
+          }
+        }
+
+        txResponse = await refundEscrowWithPushChain(
+          client,
+          currentBlockchain,
+          network,
+          walletData.publicKey,
+          escrowId
+        )
+      } else {
+        // Use traditional private key wallet
+        if (!walletData.privateKey) {
+          throw new Error('Private key not available for this wallet')
+        }
+
+        txResponse = await refundEscrow(currentBlockchain, network, walletData.privateKey, escrowId)
+      }
       toast.success(`Refund transaction sent! Hash: ${txResponse.hash}`)
-      
+
       let receipt;
       try {
         // Check if wait method exists and is a function
@@ -413,7 +531,7 @@ function EscrowTransaction({ walletData, blockchain }) {
         console.warn('Error waiting for refund transaction:', waitError)
         // Continue with the flow even if waiting fails
       }
-      
+
       await fetchBalance()
       await fetchEscrowData(false)
     } catch (error) {
@@ -448,7 +566,7 @@ function EscrowTransaction({ walletData, blockchain }) {
   const openExplorer = (hash = null) => {
     const networkConfig = getNetworkConfig(blockchain, network)
     if (networkConfig?.explorerUrl) {
-      const url = hash 
+      const url = hash
         ? `${networkConfig.explorerUrl}/tx/${hash}`
         : `${networkConfig.explorerUrl}/address/${walletData.publicKey}`
       window.open(url, '_blank')
@@ -587,6 +705,36 @@ function EscrowTransaction({ walletData, blockchain }) {
         </div>
       </div>
 
+      {/* Push Chain Wallet Status Indicator */}
+      {isPushChainWallet && (
+        <div className="relative">
+          <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 to-pink-400/20 rounded-xl blur opacity-75"></div>
+          <div className="relative bg-neutral-900/50 backdrop-blur-sm border border-neutral-700 rounded-xl p-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 bg-opacity-20 border border-purple-500/30">
+                <Zap className="h-4 w-4 text-purple-400" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-white font-medium text-sm">Push Chain Universal Wallet</h3>
+                {pushChainClient ? (
+                  <p className="text-green-400 text-xs">✅ Connected - Gasless transactions enabled</p>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <p className="text-yellow-400 text-xs">⚠️ Client not active - Limited functionality</p>
+                    <button
+                      onClick={() => navigate('/pushchain-wallet')}
+                      className="text-xs text-blue-400 hover:text-blue-300 underline"
+                    >
+                      Reconnect
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Tabs Navigation */}
       <div className="relative">
         <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 to-blue-400/20 rounded-xl blur opacity-75"></div>
@@ -599,16 +747,15 @@ function EscrowTransaction({ walletData, blockchain }) {
             ].map((tab) => {
               const totalPending = pendingActions.claimable.length + pendingActions.refundable.length
               const showBadge = tab.id === 'actions' && totalPending > 0
-              
+
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 text-sm font-medium relative ${
-                    activeTab === tab.id
+                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 text-sm font-medium relative ${activeTab === tab.id
                       ? 'bg-purple-600/30 text-purple-300 border border-purple-500/50'
                       : 'text-gray-400 hover:text-gray-300 hover:bg-neutral-800/50'
-                  }`}
+                    }`}
                 >
                   <tab.icon size={16} />
                   <span className="hidden sm:inline">{tab.label}</span>
@@ -766,8 +913,8 @@ function EscrowTransaction({ walletData, blockchain }) {
             </form>
           </div>
         </div>
-      )}      
-{/* Pending Actions Tab */}
+      )}
+      {/* Pending Actions Tab */}
       {activeTab === 'actions' && (
         <div className="relative">
           <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/20 to-purple-400/20 rounded-xl blur opacity-75"></div>
@@ -1002,16 +1149,15 @@ function EscrowActionCard({ escrowId, type, blockchain, network, onAction, loadi
           </p>
         </div>
       </div>
-      
+
       <div className="flex gap-2">
         <button
           onClick={() => onAction(escrowId)}
           disabled={loading[`${type}-${escrowId}`]}
-          className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-colors disabled:opacity-50 text-sm font-medium border ${
-            isClaimAction 
-              ? 'bg-green-600/20 hover:bg-green-600/30 text-green-400 hover:text-green-300 border-green-600/30' 
+          className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-colors disabled:opacity-50 text-sm font-medium border ${isClaimAction
+              ? 'bg-green-600/20 hover:bg-green-600/30 text-green-400 hover:text-green-300 border-green-600/30'
               : 'bg-red-600/20 hover:bg-red-600/30 text-red-400 hover:text-red-300 border-red-600/30'
-          }`}
+            }`}
         >
           {loading[`${type}-${escrowId}`] ? (
             <RefreshCw className="animate-spin" size={14} />
@@ -1020,7 +1166,7 @@ function EscrowActionCard({ escrowId, type, blockchain, network, onAction, loadi
           )}
           <span>{actionText}</span>
         </button>
-        
+
         <button
           onClick={() => openExplorer(escrowDetails.hash)}
           className="px-3 py-2 bg-purple-600/20 hover:bg-purple-600/30 text-purple-400 hover:text-purple-300 border border-purple-600/30 rounded-lg transition-colors text-sm"
@@ -1090,7 +1236,7 @@ function EscrowHistoryCard({ transaction, blockchainSymbol, openExplorer }) {
     >
       <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600/10 to-green-400/10 rounded-xl blur opacity-0 group-hover:opacity-100 transition duration-300"></div>
       <div className="relative flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 border border-neutral-600 rounded-xl bg-neutral-800/30 hover:bg-neutral-800/50 hover:border-neutral-500 transition-all duration-300 hover:shadow-lg gap-3 sm:gap-0">
-        
+
         <div className="flex items-start sm:items-center gap-3 sm:gap-4 flex-1">
           <div className="relative flex-shrink-0">
             <div className={`p-2.5 sm:p-3 rounded-full transition-all duration-300 border ${typeColor} group-hover:scale-110`}>
@@ -1137,9 +1283,8 @@ function EscrowHistoryCard({ transaction, blockchainSymbol, openExplorer }) {
 
         <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 w-full sm:w-auto">
           <div className="text-left sm:text-right">
-            <p className={`font-bold text-base sm:text-lg font-geist break-all ${
-              transaction.isIncoming ? 'text-green-400' : 'text-red-400'
-            }`}>
+            <p className={`font-bold text-base sm:text-lg font-geist break-all ${transaction.isIncoming ? 'text-green-400' : 'text-red-400'
+              }`}>
               {transaction.isIncoming ? '+' : '-'}{transaction.amount} {blockchainSymbol}
             </p>
             <p className="text-xs text-gray-400 mt-1 font-geist">

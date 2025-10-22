@@ -1,5 +1,6 @@
 // Push Chain Universal App Integration
 import { PushChainClient } from '@pushchain/core'
+import { ethers } from 'ethers'
 
 /**
  * Initialize Push Chain client for universal app functionality
@@ -17,7 +18,25 @@ export const initializePushChain = () => {
     return client
   } catch (error) {
     console.error('Failed to initialize Push Chain client:', error)
-    throw error
+    // Fallback to basic ethers provider if Push Chain SDK fails
+    return {
+      createWallet: () => {
+        const wallet = ethers.Wallet.createRandom()
+        return {
+          address: wallet.address,
+          privateKey: wallet.privateKey,
+          publicKey: wallet.publicKey
+        }
+      },
+      importWallet: (privateKey) => {
+        const wallet = new ethers.Wallet(privateKey)
+        return {
+          address: wallet.address,
+          privateKey: wallet.privateKey,
+          publicKey: wallet.publicKey
+        }
+      }
+    }
   }
 }
 
@@ -58,12 +77,28 @@ export const getUniversalBalance = async (address) => {
   try {
     const client = initializePushChain()
     
-    const balance = await client.getUniversalBalance(address)
-    console.log('Universal balance retrieved:', balance)
-    return balance
+    // Try Push Chain SDK first
+    if (client.getUniversalBalance) {
+      const balance = await client.getUniversalBalance(address)
+      console.log('Universal balance retrieved:', balance)
+      return balance
+    } else {
+      // Fallback to basic balance check
+      const provider = new ethers.JsonRpcProvider('https://evm.rpc-testnet-donut-node1.push.org')
+      const balanceWei = await provider.getBalance(address)
+      const balance = ethers.formatEther(balanceWei)
+      return {
+        pushchain: balance,
+        total: balance
+      }
+    }
   } catch (error) {
     console.error('Failed to get universal balance:', error)
-    throw error
+    // Return zero balance on error
+    return {
+      pushchain: '0',
+      total: '0'
+    }
   }
 }
 

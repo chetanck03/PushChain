@@ -5,6 +5,8 @@ import LandingPage from '../components/LandingPage'
 import AboutPage from '../components/AboutPage'
 import ContactPage from '../components/ContactForm'
 import Dashboard from '../components/Dashboard'
+import WalletSelection from '../components/WalletSelection'
+import PushChainUIWallet from '../components/Wallet/PushChainUIWallet'
 import TransactionPage from '../components/Transactions/TransactionPage'
 import NotFound from '../components/NotFound'
 
@@ -30,7 +32,19 @@ export const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
+        path: 'wallet-selection',
+        element: <WalletSelection />,
+      },
+      {
+        path: 'pushchain-wallet',
+        element: <PushChainUIWallet />,
+      },
+      {
         path: 'transaction/evm/:address',
+        element: <TransactionPage />,
+      },
+      {
+        path: 'transaction/pushchain-ui/:address',
         element: <TransactionPage />,
       },
       {

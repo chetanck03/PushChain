@@ -125,11 +125,8 @@ function Navbar() {
 
   const handleHDWalletsClick = () => {
     setIsMenuOpen(false)
-    // Set EVM blockchain selection and navigate to dashboard
-    localStorage.setItem('selected_blockchain', 'evm')
-    navigate('/dashboard')
-    // Dispatch event to notify other components
-    window.dispatchEvent(new CustomEvent('blockchainChanged', { detail: 'evm' }))
+    // Navigate to wallet selection page
+    navigate('/wallet-selection')
   }
 
   const handleWhitepaperClick = () => {
