@@ -722,7 +722,7 @@ function EscrowTransaction({ walletData, blockchain }) {
                   <div className="flex items-center gap-2">
                     <p className="text-yellow-400 text-xs">⚠️ Client not active - Limited functionality</p>
                     <button
-                      onClick={() => navigate('/pushchain-wallet')}
+                      onClick={() => navigate('/transaction/pushchain-ui/connect')}
                       className="text-xs text-blue-400 hover:text-blue-300 underline"
                     >
                       Reconnect
