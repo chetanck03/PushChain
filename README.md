@@ -6,7 +6,7 @@
 > **⚡ Live Demo**: [walletx](https://pushchain-walletx.vercel.app/)  
 > **🤝 Trustless** | **🌐 Push Chain Network** | **📱 Production Ready** | **🤖 AI-Powered**
 
-WalletX is a **game-changing escrow platform** that revolutionizes DeFi with smart contract-powered trustless transactions, temporary disposable wallets, QR code integration, AI assistance, and seamless experience on the Somnia Testnet.
+WalletX is a **game-changing escrow platform** that revolutionizes DeFi with smart contract-powered trustless transactions, temporary disposable wallets, QR code integration, AI assistance, and seamless experience on the Push Chain Testnet.
 
 ### 🎯 **WalletX**
 - **🤝 Trustless Escrow System**: Smart contract-powered P2P transactions without intermediaries
