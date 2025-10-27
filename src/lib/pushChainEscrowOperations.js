@@ -27,13 +27,29 @@ import {
  */
 export const createEscrowWithPushChain = async (pushChainClient, blockchain, network, senderAddress, receiver, amount) => {
     try {
-        console.log("Creating escrow with Push Chain Universal Wallet:", {
+        console.log("🚀 Creating escrow with Push Chain Universal Wallet:", {
             amount,
             receiver,
             blockchain,
             network,
-            senderAddress
+            senderAddress,
+            blockchainType: typeof blockchain,
+            blockchainValue: blockchain
         })
+
+        // Validate blockchain parameter
+        if (!blockchain || blockchain !== 'pushchain') {
+            console.error("❌ Blockchain validation failed:", {
+                blockchain,
+                type: typeof blockchain,
+                isPushchain: blockchain === 'pushchain',
+                isUndefined: blockchain === undefined,
+                isNull: blockchain === null
+            })
+            throw new Error(`Unsupported blockchain: ${blockchain}. Only Push Chain network is supported.`)
+        }
+
+        console.log("✅ Blockchain validation passed:", blockchain)
 
         // Validate contract connectivity first
         const isContractAccessible = await validateContractConnectivity(blockchain, network)
@@ -48,7 +64,7 @@ export const createEscrowWithPushChain = async (pushChainClient, blockchain, net
         }
 
         // Get contract address and ABI
-        const contractAddress = getWalletXContractAddress()
+        const contractAddress = getWalletXContractAddress(blockchain)
         const amountWei = ethers.parseEther(amount)
 
         // Prepare contract call data
@@ -160,7 +176,7 @@ export const claimEscrowWithPushChain = async (pushChainClient, blockchain, netw
         }
 
         // Get contract address and prepare call data
-        const contractAddress = getWalletXContractAddress()
+        const contractAddress = getWalletXContractAddress(blockchain)
         const contractInterface = new ethers.Interface(WALLETX_ABI)
         const calldata = contractInterface.encodeFunctionData("claimEscrow", [escrowId])
 
@@ -216,7 +232,7 @@ export const refundEscrowWithPushChain = async (pushChainClient, blockchain, net
         }
 
         // Get contract address and prepare call data
-        const contractAddress = getWalletXContractAddress()
+        const contractAddress = getWalletXContractAddress(blockchain)
         const contractInterface = new ethers.Interface(WALLETX_ABI)
         const calldata = contractInterface.encodeFunctionData("refundEscrow", [escrowId])
 
@@ -254,30 +270,19 @@ export const refundEscrowWithPushChain = async (pushChainClient, blockchain, net
 export const getPushChainClientFromStorage = () => {
     try {
         // Try to get from global context first (if available)
-        if (window.pushChainClient) {
+        if (typeof window !== 'undefined' && window.pushChainClient) {
             return window.pushChainClient
         }
 
-        // Check if we have stored connection data
+        // Check if we have stored connection data (for informational purposes only)
         const storedConnection = localStorage.getItem('pushchain_ui_connection')
         if (storedConnection) {
             const connectionData = JSON.parse(storedConnection)
-            console.log("Found stored Push Chain connection:", connectionData)
-
-            // Return a helpful error message for stored connections
-            return {
-                universal: {
-                    account: connectionData.universalAccount
-                },
-                createUniversalTransaction: async (txData) => {
-                    throw new Error("Push Chain UI Kit not active. Please go back to the Push Chain wallet page and reconnect for full functionality.")
-                },
-                sendTransaction: async (tx) => {
-                    throw new Error("Push Chain UI Kit not active. Please go back to the Push Chain wallet page and reconnect for full functionality.")
-                }
-            }
+            console.log("Found stored Push Chain connection data, but client is not active:", connectionData)
         }
 
+        // Return null if no active client is found
+        // This prevents mock clients that throw errors
         return null
     } catch (error) {
         console.error("Error getting Push Chain client:", error)

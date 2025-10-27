@@ -30,29 +30,64 @@ WalletX supports Push Chain network:
 
 ## WALLET TYPES & FEATURES
 
-### 1. Temporary Wallets 💼
-- **Purpose**: Disposable wallets for privacy, testing, or one-time use
-- **Benefits**: Complete anonymity, instant generation, perfect for temporary needs
-- **Use Cases**: Privacy transactions, testing DApps, one-time purchases
-- **Security**: Fully encrypted, no permanent storage
+WalletX now supports two distinct wallet architectures to provide maximum flexibility and user choice:
 
-### 2. Permanent Wallets 💼
-- **Purpose**: Traditional wallets for long-term asset management
-- **Benefits**: Persistent storage, backup capabilities, full control
-- **Features**: Import existing wallets, export capabilities, recovery options
-- **Security**: BIP39/BIP44 compliant, HD wallet generation
+### 1. BIP HD Wallets (Traditional) 💼
+- **Technology**: Hierarchical Deterministic (HD) wallets using BIP39/BIP44 standards
+- **Purpose**: Traditional crypto wallets for users who prefer standard wallet management
+- **Features**: 
+  - Generate unlimited addresses from single seed phrase
+  - 12/24-word mnemonic phrase backup and recovery
+  - Import existing wallets from other platforms
+  - Full private key control and ownership
+  - Compatible with all standard crypto wallets
+- **Use Cases**: Long-term asset storage, traditional DeFi interactions, cross-platform compatibility
+- **Security**: Industry-standard BIP39/BIP44 compliance, client-side key generation
 
-### 3. HD Wallet Generation 🔐
-- **Technology**: Hierarchical Deterministic (HD) wallets
-- **Benefits**: Generate unlimited addresses from single seed
-- **Standards**: BIP39 (mnemonic phrases) and BIP44 (derivation paths)
-- **Security**: Cryptographically secure, industry standard
+### 2. Push Chain SDK Universal Wallets 🚀
+- **Technology**: Push Chain Universal Execution Accounts (UEA) via Push Chain SDK
+- **Purpose**: Next-generation universal wallets with gasless transactions and enhanced UX
+- **Features**:
+  - **Gasless Transactions**: No gas fees for escrow operations
+  - **Universal Access**: Connect with email, Google, or any existing wallet
+  - **Cross-Chain Compatibility**: Seamless interaction across blockchain networks
+  - **Enhanced Security**: Advanced account abstraction and smart contract wallets
+  - **Social Recovery**: Multiple recovery options beyond seed phrases
+  - **Instant Onboarding**: No complex setup or seed phrase management required
+- **Use Cases**: Modern DeFi experiences, gasless escrow transactions, user-friendly onboarding
+- **Security**: Account abstraction security, multi-factor authentication, social recovery
 
-### 4. Import Existing Wallets 📥
-- **Support**: 12/24-word mnemonic phrases
-- **Compatibility**: Any BIP39-compliant wallet
-- **Process**: Secure import with immediate access to funds
-- **Privacy**: No data transmitted, purely client-side processing
+### Wallet Selection Guide 🎯
+**Choose BIP HD Wallets if you:**
+- Prefer traditional wallet management with full control
+- Want to import existing seed phrases from other wallets
+- Need compatibility with standard crypto wallet apps
+- Are experienced with private key management
+- Want to use the wallet across multiple platforms
+
+**Choose Push Chain Universal Wallets if you:**
+- Want gasless transactions for escrow operations
+- Prefer easy onboarding with email/Google/social login
+- Need enhanced user experience without seed phrase complexity
+- Want modern account abstraction and smart contract wallet features
+- Are new to crypto and want simplified, secure management
+- Value social recovery options over traditional seed phrases
+
+### Key Differences Summary 📊
+| Feature | BIP HD Wallets | Universal Wallets |
+|---------|----------------|-------------------|
+| **Setup** | Seed phrase required | Email/Google/Social login |
+| **Gas Fees** | Standard gas fees | Gasless escrow transactions |
+| **Recovery** | 12/24-word seed phrase | Social recovery options |
+| **Compatibility** | Standard wallet apps | Push Chain ecosystem |
+| **User Experience** | Traditional crypto UX | Modern, simplified UX |
+| **Security Model** | Private key ownership | Account abstraction |
+
+### Import & Creation Options 📥
+- **BIP Wallets**: Create new HD wallets or import existing 12/24-word seed phrases
+- **Universal Wallets**: Connect via Push Chain UI Kit with email, Google, or existing wallets
+- **Seamless Switching**: Use both wallet types within the same WalletX interface
+- **Unified Experience**: Both wallet types support the same escrow and transaction features
 
 ## SMART CONTRACT ESCROW SYSTEM 🔒
 
@@ -215,55 +250,96 @@ export const WALLETX_FALLBACK_RESPONSES = {
 
   wallets: {
     keywords: ['wallet', 'create', 'generate', 'new wallet', 'make wallet'],
-    response: `I can help you with WalletX wallet options! 💼
+    response: `I can help you choose the perfect wallet for your needs! 💼
 
-**Temporary Wallets** 🔄
-• Disposable wallets for privacy and testing
-• Instant generation, no permanent storage
-• Perfect for one-time transactions
+**BIP HD Wallets (Traditional)** 🔐
+• Standard crypto wallets with seed phrases
+• Full private key control and ownership
+• Compatible with other wallet apps
+• Import existing 12/24-word seed phrases
+• Perfect for experienced crypto users
 
-**Permanent Wallets** 💾
-• Long-term asset management
-• Import existing wallets with seed phrases
-• HD wallet generation with unlimited addresses
+**Push Chain Universal Wallets** 🚀
+• Next-generation gasless transactions
+• Connect with email, Google, or existing wallets
+• No seed phrases required - social recovery
+• Enhanced user experience with account abstraction
+• Perfect for beginners and modern DeFi
 
-**Import Wallets** 📥
-• Bring existing wallets using 12/24-word phrases
-• BIP39/BIP44 compliant
-• Secure client-side processing
+**Which is right for you?**
+• Choose BIP for traditional control
+• Choose Universal for modern convenience
 
 Which type interests you?`
+  },
+
+  walletComparison: {
+    keywords: ['bip vs universal', 'wallet comparison', 'which wallet', 'difference between wallets', 'wallet types'],
+    response: `Here's a detailed comparison to help you choose! 🎯
+
+**BIP HD Wallets** 🔐
+✅ Full private key control
+✅ Import existing seed phrases
+✅ Compatible with other wallet apps
+✅ Traditional crypto experience
+❌ Requires gas fees for all transactions
+❌ Complex seed phrase management
+
+**Push Chain Universal Wallets** 🚀
+✅ Gasless escrow transactions
+✅ Easy email/Google login
+✅ Social recovery options
+✅ Modern, simplified UX
+✅ Account abstraction security
+❌ Push Chain ecosystem specific
+
+**Quick Decision Guide:**
+• **New to crypto?** → Universal Wallets
+• **Experienced user?** → Either works great
+• **Want gasless escrows?** → Universal Wallets
+• **Need cross-platform compatibility?** → BIP Wallets
+• **Prefer traditional control?** → BIP Wallets
+
+Need help deciding? Tell me about your use case!`
   },
 
   transactions: {
     keywords: ['transaction', 'send', 'transfer', 'pay', 'payment'],
     response: `WalletX offers powerful transaction capabilities! ⚡
 
-**Ultra-Fast Processing**
-• Universal cross-chain transactions on Push Chain Network
-• Sub-second finality across all chains
-• Real-time status tracking
+**Dual Wallet Architecture**
+• BIP HD Wallets: Traditional transactions with full control
+• Universal Wallets: Gasless transactions with enhanced UX
 
 **Smart Contract Escrow** 🔒
 • Trustless peer-to-peer transactions
+• Gasless escrow operations (Universal wallets)
 • No intermediaries needed
 • Automatic security protections
 
-**Supported Network** 🌐
-• Push Chain Network - Universal, cross-chain blockchain
+**Push Chain Network** 🌐
+• Next-generation blockchain with account abstraction
+• Universal execution accounts for enhanced functionality
+• Cross-chain compatibility and interoperability
 
-Ready to experience the future of blockchain?`
+Ready to experience the future of blockchain transactions?`
   },
 
   networks: {
     keywords: ['network', 'blockchain', 'pushchain'],
-    response: `WalletX supports Push Chain network! 🌐
+    response: `WalletX is optimized for Push Chain network! 🌐
 
-**Push Chain Donut Testnet** - Universal blockchain
-• Cross-chain transaction processing
-• Advanced smart contract capabilities
-• Universal app compatibility
-• Optimized for DeFi and Web3 applications
+**Push Chain Network** - Next-generation blockchain
+• Universal execution accounts and gasless transactions
+• Advanced smart contract capabilities with account abstraction
+• Seamless cross-chain interoperability
+• Optimized for modern DeFi and Web3 applications
+• Enhanced user experience with social login integration
+
+**Special Features:**
+• Gasless escrow transactions for Universal wallets
+• Traditional EVM compatibility for BIP wallets
+• Unified experience across both wallet types
 
 Ready to experience the future of blockchain technology?`
   },
@@ -316,18 +392,19 @@ Your funds and privacy are completely secure!`
     response: `I'm here to help you master WalletX! 🚀
 
 **I can assist with:**
-• 💼 Wallet creation & management
-• ⚡ Somina network transactions
-• 🔒 Escrow system setup
+• 💼 Wallet creation & management (BIP HD & Universal)
+• ⚡ Push Chain network transactions
+• 🔒 Smart contract escrow system
 • 🛡️ Security best practices
-• 🌐 Somina network features
+• 🌐 Push Chain network features
 • 📱 Platform navigation
 
 **Popular Topics:**
-• "How to create a temporary wallet"
-• "Which network should I use"
-• "How does escrow work"
-• "Is my wallet secure"
+• "BIP vs Universal wallets - which to choose?"
+• "How to create gasless escrow transactions"
+• "Connect with email or Google login"
+• "Import existing wallet with seed phrase"
+• "How does the escrow system work"
 
 What specific topic would you like to explore?`
   },
@@ -337,17 +414,18 @@ What specific topic would you like to explore?`
     response: `I'm WalletX AI, your cryptocurrency and DeFi expert! 🚀
 
 **I can help you with:**
-• Wallet management (temporary & permanent)
-• Somina network transactions
+• Wallet management (BIP HD & Push Chain Universal)
+• Push Chain network transactions
 • Smart contract escrow system
+• Gasless transaction features
 • Security and privacy features
-• Somina network optimization
 
 **Quick Examples:**
-• "Create a new wallet" 💼
-• "How to send transactions" ⚡
-• "Explain escrow system" 🔒
-• "About Somina network" 🌐
+• "BIP vs Universal wallets" 💼
+• "Create gasless escrow" ⚡
+• "Connect with Google login" 🔒
+• "Import seed phrase wallet" 🌐
+• "How does escrow work" 📱
 
 What would you like to know about WalletX?`
   }

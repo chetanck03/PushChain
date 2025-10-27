@@ -359,7 +359,7 @@ function TransactionPageContent() {
                                                 {walletType === 'pushchain-ui' ? (
                                                     <Zap size={20} className="text-purple-400" />
                                                 ) : (
-                                                    <Key size={20} className="text-blue-400" />
+                                                    <Key size={20} className="text-purple-400" />
                                                 )}
                                             </div>
                                         </div>
@@ -479,7 +479,7 @@ function TransactionPageContent() {
                 {currentBlockchain && isEVMCompatible(currentBlockchain) && walletData && (
                     // Use EscrowTransaction if WalletX contract is configured, otherwise use EVMTransaction
                     WALLETX_CONTRACT_ADDRESS && WALLETX_CONTRACT_ADDRESS !== "0xYourWalletXContractAddress" ? (
-                        <EscrowTransaction walletData={walletData} blockchain={currentBlockchain} />
+                        <EscrowTransaction walletData={walletData} blockchain={currentBlockchain || 'pushchain'} />
                     ) : (
                         <EVMTransaction walletData={walletData} blockchain={currentBlockchain} />
                     )

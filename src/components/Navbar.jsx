@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Wallet, FileText } from 'lucide-react'
+import { Menu, X, Wallet } from 'lucide-react'
 
 
 function Navbar() {
@@ -129,11 +129,7 @@ function Navbar() {
     navigate('/wallet-selection')
   }
 
-  const handleWhitepaperClick = () => {
-    // You can replace this URL with your actual whitepaper link
-    window.open('/whitepaper.pdf', '_blank')
-    setIsMenuOpen(false)
-  }
+
 
 
 
@@ -339,35 +335,7 @@ function Navbar() {
                 </button>
               </motion.div>
 
-              {/* Whitepaper Navigation */}
-              <motion.div
-                variants={itemVariants}
-                className="relative"
-                onMouseEnter={() => setHoveredItem('whitepaper')}
-                onMouseLeave={() => setHoveredItem(null)}
-              >
-                <button
-                  onClick={handleWhitepaperClick}
-                  className="text-gray-300 hover:text-white relative rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 flex items-center space-x-2"
-                >
-                  {hoveredItem === 'whitepaper' && (
-                    <motion.div
-                      className="bg-neutral-800/50 absolute inset-0 rounded-lg"
-                      layoutId="navbar-hover"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{
-                        type: 'spring',
-                        stiffness: 400,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-                  <FileText className="h-4 w-4" />
-                  <span className="relative z-10">Whitepaper</span>
-                </button>
-              </motion.div>
+
 
 
 
@@ -446,21 +414,7 @@ function Navbar() {
                     </button>
                   </motion.div>
 
-                <motion.div
-                  className="border-neutral-700 border-t pt-6 space-y-2"
-                  variants={mobileItemVariants}
-                >
-                  <button
-                    onClick={handleWhitepaperClick}
-                    className="flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-neutral-800/50 w-full rounded-lg px-4 py-3 font-medium transition-colors duration-200"
-                    title="View Whitepaper"
-                  >
-                    <div className="p-1 border border-gray-600 rounded-full">
-                      <FileText className="h-4 w-4" />
-                    </div>
-                    <span>Whitepaper</span>
-                  </button>
-                </motion.div>
+
 
 
               </div>

@@ -1,25 +1,25 @@
-#  WalletX - Revolutionary Push Chain DeFi Platform
+#  WalletX - Revolutionary AI-Powered Push Chain DeFi Platform
 ## World's First Temporary Wallet Technology + Revolutionary Push Chain Escrow Platform + WalletX AI Assistance & QR Integration
 
 
 > **🎥 Video Demo**: [youtube.com/walletx](https://youtu.be/rPhVgsLBm7o)  
-> **⚡ Live Demo**: [somnia-walletx](https://somnia-walletx.vercel.app/)  
-> **🤝 Trustless** | **🌐 Somnia Network** | **📱 Production Ready** | **🤖 AI-Powered**
+> **⚡ Live Demo**: [walletx](https://pushchain-walletx.vercel.app/)  
+> **🤝 Trustless** | **🌐 Push Chain Network** | **📱 Production Ready** | **🤖 AI-Powered**
 
 WalletX is a **game-changing escrow platform** that revolutionizes DeFi with smart contract-powered trustless transactions, temporary disposable wallets, QR code integration, AI assistance, and seamless experience on the Somnia Testnet.
 
 ### 🎯 **WalletX**
 - **🤝 Trustless Escrow System**: Smart contract-powered P2P transactions without intermediaries
 - **🔄 Revolutionary Temporary Wallets**: World's first disposable wallet technology for DeFi
-- **🌐 Push Chain Network**: Seamless experience on the Push Chain Donut Testnet
+- **🌐 Push Chain Network**: Next-generation blockchain with Universal Execution Accounts and Push Chain SDK integration
 - **📱 QR Code Integration**: Complete QR generation and scanning functionality
 - **🤖 AI Assistant**: Integrated WalletX AI for real-time user support
 - **📱 Production Ready**: Professional-grade mobile-responsive interface
 
-[![Somnia Network](https://img.shields.io/badge/Somnia-Network-FF6B6B?style=for-the-badge)](https://github.com/chetanck03/Somnia)
-[![Live Demo](https://img.shields.io/badge/Live-Demo-FF6B6B?style=for-the-badge)](https://somnia-walletx.vercel.app/)
-[![AI Powered](https://img.shields.io/badge/AI-Powered-00D4AA?style=for-the-badge)](https://github.com/chetanck03/Somnia)
-[![QR Integration](https://img.shields.io/badge/QR-Integration-FF6B35?style=for-the-badge)](https://github.com/chetanck03/Somnia)
+[![Push Chain Network](https://img.shields.io/badge/PushChain-Network-FF6B6B?style=for-the-badge)](https://github.com/chetanck03/PushChain)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-FF6B6B?style=for-the-badge)](https://pushchain-walletx.vercel.app/)
+[![AI Powered](https://img.shields.io/badge/AI-Powered-00D4AA?style=for-the-badge)](https://github.com/chetanck03/PushChain)
+[![QR Integration](https://img.shields.io/badge/QR-Integration-FF6B35?style=for-the-badge)](https://github.com/chetanck03/PushChain)
 
 ![Aleph-WalletX Hero](./public/images/hero.png)
 
@@ -59,22 +59,69 @@ WalletX is a **game-changing escrow platform** that revolutionizes DeFi with sma
 ✅ Multi-language support
 ```
 
-#### 5. **🌐 Somnia Network Architecture**
+#### 5. **🌐 Push Chain Network & SDK Integration**
 ```
-✅ Unified experience on Somnia Testnet
-✅ Seamless network interaction
-✅ Consistent features everywhere
-✅ Transaction history on Somnia
+✅ Push Chain Universal Execution Accounts (UEA)
+✅ Gasless transactions via Push Chain SDK
+✅ Dual wallet architecture (BIP HD + Universal)
+✅ Social login integration (Email/Google)
+✅ Account abstraction and smart contract wallets
+✅ Cross-chain interoperability
 ```
 
-## 🛠️ **Smart Contract Deployment on Push Chain Network**
+## 🛠️ **Push Chain Network & SDK Integration**
 
-Our **WalletX Escrow Contract** is deployed and verified on the Push Chain Donut Testnet:
+### 🚀 **Push Chain SDK Features**
+WalletX leverages the powerful Push Chain SDK to provide next-generation wallet experiences:
+
+- **🔑 Universal Execution Accounts (UEA)**: Advanced account abstraction for enhanced security
+- **⛽ Gasless Transactions**: Zero gas fees for escrow operations using Push Chain SDK
+- **🌐 Social Login Integration**: Connect with email, Google, or existing wallets
+- **🔄 Cross-Chain Compatibility**: Seamless interaction across blockchain networks
+- **🛡️ Enhanced Security**: Multi-factor authentication and social recovery options
+
+### 📋 **Dual Wallet Architecture**
+
+| **Wallet Type** | **Technology** | **Features** | **Best For** |
+|----------------|----------------|--------------|--------------|
+| **BIP HD Wallets** | Traditional HD wallets | Seed phrases, private key control, cross-platform compatibility | Experienced crypto users |
+| **Push Chain Universal** | Push Chain SDK + UEA | Gasless transactions, social login, account abstraction | Modern DeFi users, beginners |
+
+### 🌐 **Smart Contract Deployment**
+
+Our **WalletX Escrow Contract** is deployed on the Push Chain network:
 
 | **Network** | **Contract Address** |
 |-------------|---------------------|
-| **Push Chain Donut Testnet** | `0x1f060920E7559219C791b9F6A0fe305c23441A4a` | 
+| **Push Chain Testnet** | `0x1f060920E7559219C791b9F6A0fe305c23441A4a` | 
 
+
+### � **Pursh Chain SDK Integration**
+
+WalletX leverages the Push Chain SDK to provide cutting-edge wallet functionality:
+
+```javascript
+// Push Chain Universal Wallet Integration
+import { PushUniversalWalletProvider, usePushWalletContext } from '@pushchain/ui-kit'
+
+// Gasless Transaction Creation
+const universalTx = await pushChainClient.createUniversalTransaction({
+    to: contractAddress,
+    data: calldata,
+    value: amountWei.toString(),
+    gasless: true  // Zero gas fees!
+})
+
+// Social Login Options
+const walletConfig = {
+    network: PushUI.CONSTANTS.PUSH_NETWORK.TESTNET,
+    login: {
+        email: true,    // Email login
+        google: true,   // Google login
+        wallet: true    // Existing wallet connection
+    }
+}
+```
 
 ### 📝 **Core Smart Contract Functions**
 ```solidity
@@ -92,10 +139,10 @@ contract WalletX {
 
 ### 🎯 **Core Platform Features**
 
-| **🌐 Somnia Dashboard** | **💼 Temporary Wallet Creation** | **🤝 Advanced Escrow System** |
+| **🌐 Push Chain Dashboard** | **💼 Dual Wallet Architecture** | **🤝 Advanced Escrow System** |
 |---|---|---|
 | ![EVM Dashboard](./public/images/evm-dashboard.png) | ![Wallets](./public/images/wallets.png) | ![Create Escrow](./public/images/create-escrow.png) |
-| *Unified interface on Somnia network* | *Revolutionary disposable wallets* | *Trustless P2P transactions* |
+| *Unified interface on Push Chain network* | *BIP HD + Universal wallet options* | *Trustless P2P transactions* |
 
 | **💰 Claim & Refund System** | **📊 Transaction History** | **💳 Wallet Balance View** |
 |---|---|---|
@@ -112,15 +159,24 @@ contract WalletX {
 | **🌐 Network Support** | **🤖 AI Assistant** | **📖 About Platform** |
 |---|---|---|
 | ![Networks](./public/images/suported-network.png) | ![AI Assistant](./public/images/ai-assitant.png) | ![About](./public/images/about.png) |
-| *Somnia Testnet supported* | *AI integration* | *Complete platform info* |
+| *Push Chain network supported* | *AI integration* | *Complete platform info* |
+
+### 🚀 **Push Chain SDK & Universal Wallet Features**
+
+| **🌐 Push Chain Universal Wallet** | **🔧 SDK Integration** |
+|---|---|
+| ![Push Chain Wallet](./public/images/pushchain-wallet.png) | ![SDK Integration](./public/images/sdk.png) |
+| *Gasless transactions with social login* | *Push Chain SDK integration showcase* |
 
 ### **Unique Value Propositions**
 
 #### 💡 **Innovation Score:**
-- **World's First**: Temporary wallet technology in DeFi space
+- **Push Chain Pioneer**: First escrow platform with Push Chain SDK integration
+- **Gasless Revolution**: Zero gas fees for escrow operations via Univ
+- **Dual Architecture**: Unique BIP HD + Push Chain Universal wallet combination
 - **AI Integration**: First escrow platform with built-in AI assistant
 - **QR Complete**: Full QR generation + scanning ecosystem
-- **Network Focus**: Specialized experience on Push Chain Donut Testnet
+- **Social Login**: Email/Google integration via Push Chain SDK
 
 #### 🔧 **Technical Excellence:**
 - **1 Deployed Contract**: Live smart contract on Somnia Testnet
@@ -183,12 +239,14 @@ Zero Backend Required // Complete decentralization
 Smart Contract Security // Audited escrow logic
 ```
 
-### 🌐 **Somnia Network Infrastructure**
+### 🌐 **Push Chain Network & SDK Integration**
 ```javascript
-Somnia Testnet        // Primary network focus
-Unified Interface     // Consistent UX on Somnia
-Seamless Interaction  // Smooth transactions
-History Tracking      // Transaction monitoring
+Push Chain SDK        // Universal Execution Accounts
+@pushchain/ui-kit     // React components for wallet integration
+Account Abstraction   // Smart contract wallets
+Gasless Transactions  // Zero gas fees for escrow operations
+Social Recovery       // Email/Google login options
+Cross-Chain Support   // Universal blockchain compatibility
 ```
 
 ## 🚀 **Getting Started**
@@ -196,8 +254,8 @@ History Tracking      // Transaction monitoring
 ### 💻 **Local Development**
 ```bash
 # Clone the revolutionary platform
-git clone https://github.com/chetanck03/Somnia
-cd Somnia
+git clone https://github.com/chetanck03/PushChain
+cd PushChain
 
 # Install dependencies
 npm install
@@ -205,6 +263,9 @@ npm install
 # Create .env file with required configuration
 VITE_PUSHCHAIN_TESTNET_RPC_URL=https://evm.rpc-testnet-donut-node1.push.org
 VITE_PUSHCHAIN_CONTRACT_ADDRESS=0x1f060920E7559219C791b9F6A0fe305c23441A4a
+
+# Push Chain SDK Configuration (for Universal Wallets)
+VITE_PUSH_CHAIN_NETWORK=testnet
 
 VITE_EMAILJS_SERVICE_ID=your_emailjs_service_id
 VITE_EMAILJS_TEMPLATE_ID=your_emailjs_template_id
@@ -222,43 +283,34 @@ npm run build
 ```
 
 ### 🌐 **Live Demo**
-**⚡ Experience it now**: [somnia-walletx](https://somnia-walletx.vercel.app/)
+**⚡ Experience it now**: [pushchain-walletx](https://pushchain-walletx.vercel.app/)
 
 ### 🎯 **Quick Feature Test**
-1. **🔄 Create Temporary Wallet**: Experience disposable wallet magic
-2. **🌐 Use Somnia Network**: Test seamless network experience
-3. **🤝 Create Escrow**: Try trustless P2P transactions
-4. **📱 Scan QR Code**: Test built-in QR scanner
-5. **🤖 Ask AI**: Get help from WalletX AI Assistant
+1. **Choose Wallet Type**: BIP HD wallets or Push Chain Universal wallets
+2. **Experience Gasless Transactions**: Try Push Chain SDK Universal wallets
+3. **Social Login**: Connect with email or Google via Push Chain SDK
+4. **Create Escrow**: Try trustless P2P transactions (gasless with Universal wallets)
+5. **Scan QR Code**: Test built-in QR scanner
+6. **Ask AI**: Get help from WalletX AI Assistant
 
 **🔥 Unique Value Propositions:**
-- **🌍 Network Focus**: Specialized for Somnia Testnet
-- **💼 Real Business Model**: Addresses actual market needs
-- **🚀 Technical Excellence**: Live deployment proves our capabilities
-- **📱 Production Ready**: Not just a hackathon prototype, fully functional platform
-- **🤖 AI Innovation**: First escrow platform with integrated AI assistant
-- **📱 Mobile Complete**: QR scanning + responsive design for mobile-first users
+- **Push Chain Innovation**: First escrow platform with Push Chain SDK integration
+- **Gasless Transactions**: Zero gas fees for escrow operations via Universal wallets
+- **Dualn Wallet Architecture**: Traditional BIP HD + Modern Push Chain Universal wallets
+- **Teochnical Excellence**: Live deployment with cutting-edge Push Chain SDK
+- **Production Ready**: Not just a hackathon prototype, fully functional platform
+- **AI Innovation**: First escrow platform with integrated AI assistant
+- **Mobile Complete**: QR scanning + responsive design for mobile-first users
 
 ### 📋 **Complete Submission Package**
-- ✅ **Live Demo**: [somnia-walletx](https://somnia-walletx.vercel.app/)
-- ✅ **GitHub Repo**: [Somnia](https://github.com/chetanck03/Somnia) (100% Open Source)
+- ✅ **Live Demo**: [pushchain-walletx](https://pushchain-walletx.vercel.app/)
+- ✅ **GitHub Repo**: [PushChain](https://github.com/chetanck03/PushChain) (100% Open Source)
 - ✅ **Smart Contract**: Deployed on Somnia Testnet
 - ✅ **Mobile Responsive**: Perfect mobile experience
 - ✅ **AI Integration**: Gemini AI assistant
 - ✅ **QR Integration**: Complete scanning and generation
 - ✅ **Production Ready**: Professional error handling
 
-### 🎯 **Perfect Track Fit**
-- **🥇 Lisk Track**: Real-world freelance payment solution
-- **🥈 Base Track**: Multi-chain DeFi innovation
-- **🥉 AI Track**: Integrated AI assistant
-- **🏅 Innovation**: World's first temporary wallet technology
-
-### 📄 **Technical Documentation**
-- **📊 Whitepaper**: [View Complete Technical Analysis](https://somnia-walletx.vercel.app/whitepaper.pdf)
-- **🔧 Architecture**: Detailed system design and implementation
-- **🛡️ Security**: Smart contract audit and security measures
-- **📈 Roadmap**: Future development and scaling plans
 
 ### 👨‍💻 **Team** : Jai Mahakal
 - **Developer**: Chetan Kumar (@chetanck03)
@@ -268,36 +320,40 @@ npm run build
 ## 🌟 **Competitive Advantages**
 
 ### 🚀 **First-Mover Advantages**
-- **🔄 Only Platform**: With temporary wallet technology
-- **🤖 AI Pioneer**: First escrow platform with integrated AI
-- **📱 QR Complete**: Full QR ecosystem in DeFi
-- **🌐 Network Focus**: Specialized experience on Somnia Testnet
+- **Push Chain Pioneer**: First escrow platform with Push Chain SDK integration
+- **Gasless Innovation**: Revolutionary gasless escrow transactions
+- **Dual Arlchitecture**: Unique BIP HD + Universal wallet combination
+- **AI Pioneer**: First escrow platform with integrated AI
+- **QR Complete**: Full QR ecosystem in DeFi
+- **Social Login**: Email/Google integration via Push Chain SDK
 
 ### 💎 **Technical Superiority**
-- **📱 Production Ready**: Not just a prototype, fully functional
-- **🔧 Professional Code**: Clean architecture and error handling
-- **⚡ Performance**: Optimized for speed and reliability
-- **🛡️ Security**: Audited smart contracts and secure practices
+- **Production Ready**: Not just a prototype, fully functional
+- **Professional Code**: Clean architecture and error handling
+- **Performance**: Optimized for speed and reliability
+- **Security**: Audited smart contracts and secure practices
 
 ### 💰 **Business Value**
-- **📈 Scalable**: Ready for immediate enterprise adoption
-- **💵 Revenue Model**: Clear monetization through transaction fees
-- **🌍 Global Ready**: Multi-language and mobile-optimized
-- **🤝 Partnership Ready**: API and integration possibilities
+- **Scalable**: Ready for immediate enterprise adoption
+- **Revenue Model**: Clear monetization through transaction fees
+- **Global Ready**: Multi-language and mobile-optimized
+- **Partnership Ready**: API and integration possibilities
 
 ---
 
 **🌟 This isn't just another hackathon project - it's a complete DeFi revolution:**
 
-✨ **World's first temporary wallet technology**  
-🤖 **AI-powered user experience with Gemini integration**  
+🌐 **First escrow platform with Push Chain SDK integration**  
+⛽ **Revolutionary gasless transactions via Universal Execution Accounts**  
+� **Duapl wallet architecture: Traditional BIP HD + Modern Push Chain Universal**  
+🚀 **Social login integration with email/Google via Push Chain SDK**  
+�  **AI-powered user exustlence with Gemini integration**  
 📱 **Complete QR code ecosystem for mobile users**  
-🌐 **Specialized experience on Somnia Testnet**  
 🤝 **Production-ready trustless escrow system**  
 📱 **Professional mobile-responsive design**  
 🔧 **Clean, auditable, and scalable codebase**  
 
-**This is the future of DeFi - accessible, intelligent, and revolutionary.**
+**This is the future of DeFi - accessible, gasless, intelligent, and revolutionary.**
 
 ---
 

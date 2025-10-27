@@ -60,25 +60,43 @@ function EscrowTransaction({ walletData, blockchain }) {
   const [balance, setBalance] = useState('0')
   const [loading, setLoading] = useState(false)
   const [activeTab, setActiveTab] = useState('send')
-  const [currentBlockchain, setCurrentBlockchain] = useState(blockchain)
+
+  // Ensure blockchain is always 'pushchain' for escrow operations
+  const [currentBlockchain, setCurrentBlockchain] = useState('pushchain')
 
   // Get Push Chain client from global context or storage (no hooks needed)
   const [pushChainClient, setPushChainClient] = useState(null)
 
   // Check for Push Chain client availability
   useEffect(() => {
-    // Try global client first
-    if (typeof window !== 'undefined' && window.pushChainClient) {
-      setPushChainClient(window.pushChainClient)
-      console.log('✅ Found global Push Chain client')
-    } else {
+    const checkPushChainClient = () => {
+      // Try global client first
+      if (typeof window !== 'undefined' && window.pushChainClient) {
+        setPushChainClient(window.pushChainClient)
+        console.log('✅ Found global Push Chain client')
+        return true
+      }
+      return false
+    }
+
+    // Initial check
+    if (!checkPushChainClient()) {
       // Check if we have stored connection (for display purposes)
       const storedConnection = localStorage.getItem('pushchain_ui_connection')
       if (storedConnection) {
         console.log('📦 Found stored Push Chain connection (client not active)')
       }
     }
-  }, [])
+
+    // Set up interval to check for client availability
+    const interval = setInterval(() => {
+      if (!pushChainClient) {
+        checkPushChainClient()
+      }
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [pushChainClient])
 
   // Detect if this is a Push Chain Universal Wallet
   const isPushChainWallet = walletData?.walletType === 'pushchain-ui' ||
@@ -98,17 +116,18 @@ function EscrowTransaction({ walletData, blockchain }) {
     return 'testnet'
   })
 
-  // Listen for blockchain changes from parent component
+  // Initialize escrow component for Push Chain operations
   useEffect(() => {
-    setCurrentBlockchain(blockchain)
-    // Load saved network selection
-    const savedNetwork = localStorage.getItem('selected_network')
-    if (savedNetwork && savedNetwork !== blockchain) {
-      setCurrentBlockchain(savedNetwork)
-    }
+    // For escrow operations, always use 'pushchain' regardless of saved network
+    const blockchainToUse = 'pushchain'
+    console.log('🔧 Initializing EscrowTransaction with blockchain:', blockchainToUse)
+    setCurrentBlockchain(blockchainToUse)
 
-    // Reset to testnet when switching blockchains
-    const config = getBlockchainConfig(savedNetwork || blockchain)
+    // Update localStorage to reflect that we're using pushchain for escrow
+    localStorage.setItem('selected_network', blockchainToUse)
+
+    // Set network to testnet by default for Push Chain escrow operations
+    const config = getBlockchainConfig('pushchain')
     if (config) {
       const networks = Object.keys(config.networks).sort((a, b) => {
         if (a === 'mainnet') return 1
@@ -117,10 +136,12 @@ function EscrowTransaction({ walletData, blockchain }) {
       })
       setNetwork(networks[0] || 'testnet')
     }
+
+    // Reset form and data when component initializes
     setSendForm({ to: '', amount: '', gasLimit: '500000' })
     setEscrowHistory([])
     setPendingActions({ claimable: [], refundable: [] })
-  }, [blockchain])
+  }, []) // Remove blockchain dependency since we always use pushchain
 
   const [sendForm, setSendForm] = useState({
     to: '',
@@ -322,6 +343,14 @@ function EscrowTransaction({ walletData, blockchain }) {
   const handleCreateEscrow = async (e) => {
     e.preventDefault()
 
+    console.log("🎯 Starting escrow creation process:", {
+      currentBlockchain,
+      network,
+      isPushChainWallet,
+      walletType: walletData?.walletType,
+      walletAddress: walletData?.publicKey
+    })
+
     if (!sendForm.to || !sendForm.amount) {
       toast.error('Please fill in all required fields')
       return
@@ -351,16 +380,28 @@ function EscrowTransaction({ walletData, blockchain }) {
         // Get Push Chain client
         let client = pushChainClient
         if (!client) {
-          // Try to get from storage or global context
-          client = getPushChainClientFromStorage()
-          if (!client) {
-            throw new Error('Push Chain client not available. Please reconnect your wallet.')
+          // Try to get from global context one more time
+          if (typeof window !== 'undefined' && window.pushChainClient) {
+            client = window.pushChainClient
+            setPushChainClient(client)
+          } else {
+            throw new Error('Push Chain UI Kit is not active. Please refresh the page and ensure you are properly connected through the Push Chain wallet interface.')
           }
         }
 
+        // Ensure we have a valid blockchain for Push Chain operations
+        const blockchainToUse = 'pushchain' // Always use pushchain for escrow operations
+
+        console.log('🔍 Debug escrow creation:', {
+          currentBlockchain,
+          blockchainToUse,
+          network,
+          walletAddress: walletData.publicKey
+        })
+
         txResponse = await createEscrowWithPushChain(
           client,
-          currentBlockchain,
+          blockchainToUse,
           network,
           walletData.publicKey, // UEA address
           sendForm.to,
@@ -441,7 +482,7 @@ function EscrowTransaction({ walletData, blockchain }) {
 
         txResponse = await claimEscrowWithPushChain(
           client,
-          currentBlockchain,
+          'pushchain', // Always use pushchain for escrow operations
           network,
           walletData.publicKey,
           escrowId
@@ -500,7 +541,7 @@ function EscrowTransaction({ walletData, blockchain }) {
 
         txResponse = await refundEscrowWithPushChain(
           client,
-          currentBlockchain,
+          'pushchain', // Always use pushchain for escrow operations
           network,
           walletData.publicKey,
           escrowId
@@ -719,14 +760,9 @@ function EscrowTransaction({ walletData, blockchain }) {
                 {pushChainClient ? (
                   <p className="text-green-400 text-xs">✅ Connected - Gasless transactions enabled</p>
                 ) : (
-                  <div className="flex items-center gap-2">
-                    <p className="text-yellow-400 text-xs">⚠️ Client not active - Limited functionality</p>
-                    <button
-                      onClick={() => navigate('/transaction/pushchain-ui/connect')}
-                      className="text-xs text-blue-400 hover:text-blue-300 underline"
-                    >
-                      Reconnect
-                    </button>
+                  <div className="flex flex-col gap-1">
+                    <p className="text-yellow-400 text-xs">⚠️ UI Kit not active - Escrow creation unavailable</p>
+                    <p className="text-gray-400 text-xs">Please refresh the page and reconnect through the Push Chain wallet interface</p>
                   </div>
                 )}
               </div>
@@ -753,8 +789,8 @@ function EscrowTransaction({ walletData, blockchain }) {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 text-sm font-medium relative ${activeTab === tab.id
-                      ? 'bg-purple-600/30 text-purple-300 border border-purple-500/50'
-                      : 'text-gray-400 hover:text-gray-300 hover:bg-neutral-800/50'
+                    ? 'bg-purple-600/30 text-purple-300 border border-purple-500/50'
+                    : 'text-gray-400 hover:text-gray-300 hover:bg-neutral-800/50'
                     }`}
                 >
                   <tab.icon size={16} />
@@ -814,7 +850,7 @@ function EscrowTransaction({ walletData, blockchain }) {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className={`grid gap-5 ${isPushChainWallet ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-3 font-geist">
                       Amount ({blockchainConfig.symbol}) *
@@ -844,55 +880,78 @@ function EscrowTransaction({ walletData, blockchain }) {
                     </p>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-3 font-geist">
-                      Gas Limit
-                      <span className="text-xs text-gray-400 ml-2">(Auto-adjusted for complex contracts)</span>
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="number"
-                        min="300000"
-                        max="5000000"
-                        value={sendForm.gasLimit}
-                        onChange={(e) => handleInputChange('gasLimit', e.target.value)}
-                        className="w-full px-4 py-3 pr-20 border border-neutral-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-neutral-800/50 text-gray-200 placeholder-gray-400 transition-all duration-200 hover:border-neutral-500"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => handleInputChange('gasLimit', '500000')}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-400 text-xs hover:text-purple-300 bg-purple-600/20 hover:bg-purple-600/30 px-2 py-1 rounded transition-colors border border-purple-600/30"
-                        title="Set recommended gas for complex escrow contracts"
-                      >
-                        Auto
-                      </button>
+                  {/* Only show Gas Limit for BIP HD wallets, not for Push Chain Universal wallets */}
+                  {!isPushChainWallet && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-3 font-geist">
+                        Gas Limit
+                        <span className="text-xs text-gray-400 ml-2">(Auto-adjusted for complex contracts)</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          min="300000"
+                          max="5000000"
+                          value={sendForm.gasLimit}
+                          onChange={(e) => handleInputChange('gasLimit', e.target.value)}
+                          className="w-full px-4 py-3 pr-20 border border-neutral-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-neutral-800/50 text-gray-200 placeholder-gray-400 transition-all duration-200 hover:border-neutral-500"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleInputChange('gasLimit', '500000')}
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-400 text-xs hover:text-purple-300 bg-purple-600/20 hover:bg-purple-600/30 px-2 py-1 rounded transition-colors border border-purple-600/30"
+                          title="Set recommended gas for complex escrow contracts"
+                        >
+                          Auto
+                        </button>
+                      </div>
+                      <div className="text-xs text-gray-400 mt-2 space-y-1">
+                        <p className="font-geist">• Simple escrow: 300,000 - 500,000 gas</p>
+                        <p className="font-geist">• Complex contracts: 500,000+ gas</p>
+                        <p className="font-geist text-yellow-400">⚠️ Gas will be auto-adjusted based on contract complexity</p>
+                      </div>
                     </div>
-                    <div className="text-xs text-gray-400 mt-2 space-y-1">
-                      <p className="font-geist">• Simple escrow: 300,000 - 500,000 gas</p>
-                      <p className="font-geist">• Complex contracts: 500,000+ gas</p>
-                      <p className="font-geist text-yellow-400">⚠️ Gas will be auto-adjusted based on contract complexity</p>
-                    </div>
-                  </div>
+                  )}
+
+                  {/* Show gasless transaction info for Push Chain Universal wallets */}
+                 
                 </div>
               </div>
 
-              <div className="bg-purple-600/20 border border-purple-600/30 rounded-lg p-4">
-                <div className="flex items-start gap-2">
-                  <Shield className="text-purple-400 mt-0.5" size={16} />
-                  <div className="text-sm text-purple-300">
-                    <p className="font-medium">Escrow Protection</p>
-                    <p>Funds will be held securely in the smart contract. The recipient can claim them, or you can refund if unclaimed.</p>
+              {isPushChainWallet && !pushChainClient ? (
+                <div className="bg-yellow-600/20 border border-yellow-600/30 rounded-lg p-4">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="text-yellow-400 mt-0.5" size={16} />
+                    <div className="text-sm text-yellow-300">
+                      <p className="font-medium">Push Chain Client Required</p>
+                      <p>To create gasless escrows with your Push Chain Universal Wallet, please refresh the page and reconnect through the Push Chain wallet interface.</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="bg-purple-600/20 border border-purple-600/30 rounded-lg p-4">
+                  <div className="flex items-start gap-2">
+                    <Shield className="text-purple-400 mt-0.5" size={16} />
+                    <div className="text-sm text-purple-300">
+                      <p className="font-medium">
+                        {isPushChainWallet ? '⚡ Gasless Escrow Protection' : 'Escrow Protection'}
+                      </p>
+                      <p>
+                        Funds will be held securely in the smart contract. The recipient can claim them, or you can refund if unclaimed.
+                        {isPushChainWallet && ' Best of all - no gas fees required!'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <span className="relative inline-block overflow-hidden rounded-full p-[1.5px] w-full">
                 <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                 <div className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-neutral-950 backdrop-blur-3xl">
                   <button
                     type="submit"
-                    disabled={sending || loading || parseFloat(balance) === 0}
-                    className="w-full relative group inline-flex items-center justify-center rounded-full border-[1px] border-transparent bg-gradient-to-tr from-zinc-300/5 via-purple-400/20 to-transparent py-3 px-6 text-center text-white transition-all duration-300 hover:bg-transparent/90 disabled:cursor-not-allowed gap-3 font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] disabled:transform-none font-geist"
+                    disabled={sending || loading || parseFloat(balance) === 0 || (isPushChainWallet && !pushChainClient)}
+                    className="w-full relative group inline-flex items-center justify-center rounded-full border-[1px] border-transparent bg-gradient-to-tr from-zinc-300/5 via-purple-400/20 to-transparent py-3 px-6 text-center text-white transition-all duration-300 hover:bg-transparent/90 disabled:cursor-not-allowed gap-3 font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] disabled:transform-none font-geist disabled:opacity-50"
                   >
                     <div className="relative flex items-center gap-3">
                       {sending ? (
@@ -900,10 +959,15 @@ function EscrowTransaction({ walletData, blockchain }) {
                           <RefreshCw className="animate-spin" size={18} />
                           <span>{transactionStatus || 'Creating Escrow...'}</span>
                         </>
+                      ) : isPushChainWallet && !pushChainClient ? (
+                        <>
+                          <AlertCircle size={18} />
+                          <span>Push Chain Client Required</span>
+                        </>
                       ) : (
                         <>
-                          <Shield size={18} />
-                          <span>Create Escrow</span>
+                          {isPushChainWallet ? <Zap size={18} /> : <Shield size={18} />}
+                          <span>{isPushChainWallet ? 'Create Gasless Escrow' : 'Create Escrow'}</span>
                         </>
                       )}
                     </div>
@@ -1155,8 +1219,8 @@ function EscrowActionCard({ escrowId, type, blockchain, network, onAction, loadi
           onClick={() => onAction(escrowId)}
           disabled={loading[`${type}-${escrowId}`]}
           className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-colors disabled:opacity-50 text-sm font-medium border ${isClaimAction
-              ? 'bg-green-600/20 hover:bg-green-600/30 text-green-400 hover:text-green-300 border-green-600/30'
-              : 'bg-red-600/20 hover:bg-red-600/30 text-red-400 hover:text-red-300 border-red-600/30'
+            ? 'bg-green-600/20 hover:bg-green-600/30 text-green-400 hover:text-green-300 border-green-600/30'
+            : 'bg-red-600/20 hover:bg-red-600/30 text-red-400 hover:text-red-300 border-red-600/30'
             }`}
         >
           {loading[`${type}-${escrowId}`] ? (

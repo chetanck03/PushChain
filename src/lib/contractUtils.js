@@ -14,7 +14,7 @@ export {
 } from './contractConfig'
 
 // Export legacy name for backward compatibility
-export { getWalletXContractAddress as WALLETX_CONTRACT_ADDRESS } from './contractConfig'
+export { WALLETX_CONTRACT_ADDRESS } from './contractConfig'
 
 // Contract operations (create, claim, refund)
 export {
@@ -60,7 +60,7 @@ export {
 export const WALLET_MANAGER_ADDRESS = () => {
     console.warn('WALLET_MANAGER_ADDRESS is deprecated, use getWalletXContractAddress() instead')
     const { getWalletXContractAddress } = require('./contractConfig')
-    return getWalletXContractAddress()
+    return getWalletXContractAddress('pushchain')
 }
 
 // Legacy function redirects
