@@ -2,7 +2,7 @@
 ## World's First Temporary Wallet Technology + Revolutionary Push Chain Escrow Platform + WalletX AI Assistance & QR Integration
 
 
-> **🎥 Video Demo**: [youtube.com/walletx](https://youtu.be/rPhVgsLBm7o)  
+> **🎥 Video Demo**: [youtube.com/walletx](https://youtu.be/mYFT7c8zEto)  
 > **⚡ Live Demo**: [walletx](https://pushchain-walletx.vercel.app/)  
 > **🤝 Trustless** | **🌐 Push Chain Network** | **📱 Production Ready** | **🤖 AI-Powered**
 
